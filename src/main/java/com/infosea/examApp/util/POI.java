@@ -1,8 +1,5 @@
 package com.infosea.examApp.util;
 
-import com.infosea.examApp.pojo.Question;
-import org.apache.poi.hpsf.DocumentSummaryInformation;
-import org.apache.poi.hpsf.SummaryInformation;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 
 import java.io.File;
@@ -16,6 +13,11 @@ import java.util.Map;
 
 /**
  * Created by infosea on 2016/4/25.
+ * @description 解析 doc 文件 按问题类型存放到Map中
+ * choose 选择题
+ * chooseMore 多选题
+ * check 判断题
+ *
  */
 public class POI {
     int flagCheck = 0;
@@ -34,8 +36,12 @@ public class POI {
         String paraTexts[] = extractor.getParagraphText();
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < paraTexts.length; i++) {
+//            System.out.println(paraTexts[i]);
             if (i <= 3) continue;
             String s = paraTexts[i];
+            if(s.contains("读者如果想向图书馆提交建议")){
+                System.out.println();
+            }
             if (s.contains("多选一，每题2分")) {
                 flagChoose = 1;
             } else if (paraTexts[i].contains("判断题（二选一，每题1分")) {
@@ -88,7 +94,7 @@ public class POI {
 
     public void putIntoList(List<String> questionlist, StringBuilder questionString) {
         String outString = questionString.toString();
-        List<String> l = RegularEx.findDigital(outString);
+        List<String> l = RegularEx1.findDigital(outString);
         int i = 0;
         String[] strs = outString.split("\\d+、");
         for (String ss : strs) {

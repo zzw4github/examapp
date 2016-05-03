@@ -11,13 +11,10 @@ import com.infosea.examApp.pojo.QuestionType;
 import com.infosea.examApp.pojo.TestPaper;
 import com.infosea.examApp.service.OptionService;
 import com.infosea.examApp.service.QuestionService;
-import org.hibernate.Query;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -66,18 +63,18 @@ public class DocImport {
     public void testSave() throws Exception {
         POI poi = new POI();
         int count = 0;
-        RegularEx regularEx = new RegularEx();
+        RegularEx1 regularEx1 = new RegularEx1();
         Map<String, List<String>> questionMap = poi.testReadByExtractor(new File("湖南人文科技学院图书馆新生入馆教育考试题库.doc"));
         for (Map.Entry<String, List<String>> entry : questionMap.entrySet()) {
             String key = entry.getKey();
             List<String> val = entry.getValue();
-            if (key.equals("choosemore")) {
+            if (key.equals("choose")) {
                 for (String str : val) {
                     str = str.replace("(", "（").replace(")", "）");
                     Question question = new Question();
                     System.out.println(str);
-                    if (regularEx.parseString(str)) {
-                        Map<String, String> map = regularEx.getQuestionFromRegex(str);
+                    if (regularEx1.parseString(str)) {
+                        Map<String, String> map = regularEx1.getQuestionFromRegex(str);
                         if (map.size() == 0) {
                             System.out.println("------" + str);
                             continue;
@@ -106,6 +103,61 @@ public class DocImport {
         }
     }
 
+    @Test
+    @Transactional  //使用该注释会使用事务，而且在测试完成之后会回滚事务，也就是说在该方法中做出的一切操作都不会对数据库中的数据产生任何影响
+    @Rollback(false) //这里设置为false，就让事务不回滚
+    /*
+    *@description 将 doc解析后存放到数据库 question 表中
+     */
+    public void testUniformSave() throws Exception {
+        POI poi = new POI();
+        int count = 0;
+        RegularEx regularEx = new RegularEx();
+        Map<String, List<String>> questionMap = poi.testReadByExtractor(new File("湖南人文科技学院图书馆新生入馆教育考试题库.doc"));
+        for (Map.Entry<String, List<String>> entry : questionMap.entrySet()) {
+            String key = entry.getKey();
+            List<String> val = entry.getValue();
+            for (String str : val) {
+                str = str.replace("(", "（").replace(")", "）");
+                Question question = new Question();
+                Map<String, String> map = regularEx.getQuestionFromUniformStringByRegex(str);
+                if (map.size() == 0) {
+//                        System.out.println("------" + str);
+                    continue;
+                } else {
+//                        System.out.println(map.get("answer"));
+//                        System.out.println(map.get("question"));
+//                        System.out.println(map.get("option"));
+
+                    QuestionType questionType = null;
+                    if (key.equals("choosemore")) {
+                        questionType = questionTypeDao.find(3l);
+                    } else if (key.equals("choose")) {
+                        questionType = questionTypeDao.find(2l);
+                    } else if (key.equals("check")) {
+                        questionType = questionTypeDao.find(1l);
+                    }
+                    Option option = new Option();
+                    question.setStdAnswer(map.get("answer").trim());
+                    question.setQuestion(map.get("question"));
+                    question.setDesc("desc");
+                    question.setDate(new Date());
+                    question.setQuestionType(questionType);
+                    option.setValue(map.get("option"));
+                    question.setOption(option);
+                    questionDao.save(question);
+                }
+            }
+        }
+    }
+
+    /*
+    *@description 根据试题id范围 随机生成生成指定书目的试题id
+    * @param begin 试题起始ID
+    * @param end   试题结束ID
+    * @param size  生成试题ID的书目
+    * @pageSize    将试题ID分成多少部分 每个部分取对应的个数
+     */
     public String produceRandomNumberString(int begin, int end, int size, int pageSize) {
         /*
         begin id起始  81
@@ -133,7 +185,7 @@ public class DocImport {
         if (size % pageCount != 0) {
             remainCount = size % pageCount; //每页取30/14 个 2*14 =28  剩余要取的id数  2 ；
 //          remainPage = random.nextInt(pageCount) + 1;  //从哪一页取剩余没取的书目 ，也就是 那一页多 3 个 id
-            remainPage = random.nextInt(pageCount-1)+1;  // 不从最后一页取，因为最后一页 id数比其他页少
+            remainPage = random.nextInt(pageCount - 1) + 1;  // 不从最后一页取，因为最后一页 id数比其他页少
 
         }
         for (int j = 1; j <= pageCount; j++) { //pageCount 14
@@ -194,7 +246,6 @@ public class DocImport {
                 testPaperDao.flush();
         }
         testPaperDao.flush();
-//        testPaperDao.findAllTestPaper();
     }
 
     @Test
