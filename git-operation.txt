@@ -1,0 +1,7 @@
+cd 到项目下
+git init
+创建  .gitignore
+git add .
+git commint -m "xxx"
+git remote add origin https://github.com/zzw4github/examapp.git
+git push -u origin master
