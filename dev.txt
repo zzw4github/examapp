@@ -1,0 +1,13 @@
+在处理点击按钮开始计时功能，遇到很多问题，
+$('#id').click(function(){});没有放到 $().ready(function(){});中在加载页面的时候就执行了，点击按钮的时候就不执行了。
+搜索问题的时候搜到了，不过没有这么处理，直到第二天试着把click函数放到ready中才解决了。
+为什么setInterval 只执行了一次？？
+http://q.cnblogs.com/q/63658/
+
+jquery $("#id").click()
+http://zhidao.baidu.com/link?url=Oj5a9K_232S7z7Ud2Vd9CV2PBHdilYjMApDqjNTsPtGCxpdVTA3gdInsO7MVFq1TQV1oPogQKmi367c8Ky-qpK
+
+大侠们：请问在编写jquery的时候我直接写$("#one").click(function(){alert("..........")}); 为什么不可以呢？ 必须:$(document).ready(function(){$("#one").click(function() {alert("Hello world!");});}); 这样写呢? 可以不添加$(document).ready()这个事件不呢？
+
+1、在$("#one").click(function() 这样的写法中，如不在 $(function() 或$(document).ready(function()中，它被执行的时间是在body加载之前，所以这时，$('#one')取不到内容，所以无效。
+2、可以不添加$(document).ready()，当然也就不能用$("#one").click(function() 这种写法了。 jQuery也可以是非侵入式的，可以用传统方式写事件： function oneclick() {} < id='one' onclick='oneclick();' />
