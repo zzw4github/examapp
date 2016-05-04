@@ -52,11 +52,7 @@ public class PageModel<T> {
             totalPages = totalRows / pageRecorders + 1;
         }
 
-        if (page >= totalPages) {
-            hasNextPage = false;
-        } else {
-            hasNextPage = true;
-        }
+        hasNextPage = page < totalPages;
 
         if (totalRows < pageRecorders) {
             this.pageStartRow = 0;
@@ -186,17 +182,9 @@ public class PageModel<T> {
         if (page == 0) {
             page = 1;
         }
-        if ((page - 1) > 0) {
-            hasPreviousPage = true;
-        } else {
-            hasPreviousPage = false;
-        }
+        hasPreviousPage = (page - 1) > 0;
 
-        if (page >= totalPages) {
-            hasNextPage = false;
-        } else {
-            hasNextPage = true;
-        }
+        hasNextPage = page < totalPages;
     }
 
     /**
@@ -207,16 +195,8 @@ public class PageModel<T> {
     public List<T> getPreviousPage() {
         page = page - 1;
 
-        if ((page - 1) > 0) {
-            hasPreviousPage = true;
-        } else {
-            hasPreviousPage = false;
-        }
-        if (page >= totalPages) {
-            hasNextPage = false;
-        } else {
-            hasNextPage = true;
-        }
+        hasPreviousPage = (page - 1) > 0;
+        hasNextPage = page < totalPages;
         return getObjects(page);
     }
 

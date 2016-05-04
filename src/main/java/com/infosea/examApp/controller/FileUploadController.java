@@ -42,7 +42,7 @@ public class FileUploadController {
                 int pre = (int) System.currentTimeMillis();
                 try {
                     //拿到输出流，同时重命名上传的文件
-                    FileOutputStream os = new FileOutputStream("H:/" + new Date().getTime() + files[i].getOriginalFilename());
+                    FileOutputStream os = new FileOutputStream( new Date().getTime() + files[i].getOriginalFilename());
                     //拿到上传文件的输入流
                     FileInputStream in = (FileInputStream) files[i].getInputStream();
 
@@ -91,7 +91,7 @@ public class FileUploadController {
                         //重命名上传后的文件名
                         String fileName = "demoUpload" + file.getOriginalFilename();
                         //定义上传路径
-                        String path = "H:/" + fileName;
+                        String path =  "d:/"+fileName;
                         File localFile = new File(path);
                         file.transferTo(localFile);
                     }
@@ -102,13 +102,12 @@ public class FileUploadController {
             }
 
         }
-        return "/success";
+        return "/testPaper/success";
     }
 
-    @RequestMapping("/toUpload" )
+    @RequestMapping("/toupload" )
     public String toUpload() {
-
-        return "/upload";
+        return "/testPaper/upload";
     }
 
 }

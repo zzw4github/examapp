@@ -10,11 +10,11 @@ import java.util.List;
  * Created by infosea on 2016/4/25.
  */
 public interface TestPaperDao {
-    public TestPaper findTestPaperById(long id);
-    public List<TestPaper> findAllTestPaper();
-    public Serializable save(TestPaper testPaper);
-    public TestPaper findTestPaperByTestPaperIdandUserId(long eid,long uid);
-    public void del(TestPaper testPaper);
-    public void update(TestPaper testPaper);
+    TestPaper findTestPaperById(long id);
+    List<TestPaper> findAllTestPaper();
+    Serializable save(TestPaper testPaper);
+    TestPaper findTestPaperByTestPaperIdandUserId(long eid, long uid);
+    void del(TestPaper testPaper);
+    void update(TestPaper testPaper);
     void flush();
 }

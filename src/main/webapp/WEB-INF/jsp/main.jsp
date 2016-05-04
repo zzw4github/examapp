@@ -172,7 +172,7 @@ a
     $(document).ready(
             function () {
                 $("#btn").click(function () {
-                    $(this).attr('disabled',"true");;
+                    $(this).attr('disabled', "true");
                     var period = parseInt($("#time").val());
                     var t=period*60;
                     function GetRTime() {

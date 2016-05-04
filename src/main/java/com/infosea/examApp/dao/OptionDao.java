@@ -9,8 +9,8 @@ import java.util.List;
  * Created by infosea on 2016/4/20.
  */
 public interface OptionDao {
-    public Option find(long id);
-    public Serializable save(Option option);
-    public List<Option> findAll();
+    Option find(long id);
+    Serializable save(Option option);
+    List<Option> findAll();
 
 }

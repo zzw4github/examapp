@@ -11,10 +11,10 @@ import java.util.List;
  */
 @Repository
 public interface ExamDao {
-  public  Exam findExam(long id);
-  public  List<Exam> findAllExam();
-  public  Serializable save(Exam exam);
-  public Exam findExamByExamIdandUserId(long eid,long uid);
-  public void del(Exam exam);
-  public void update(Exam exam);
+  Exam findExam(long id);
+  List<Exam> findAllExam();
+  Serializable save(Exam exam);
+  Exam findExamByExamIdandUserId(long eid, long uid);
+  void del(Exam exam);
+  void update(Exam exam);
 }

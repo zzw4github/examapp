@@ -10,10 +10,10 @@ import java.io.Serializable;
  */
 @Repository
 public interface UserDao {
-    public User queryUserByNameAndPwd(String name,String pwd );
-    public Serializable save(User user);
-    public void saveOrUpdate(User user);
-    public void merge(User user);
-    public User find(long id);
-    public User  findUser(User user);
+    User queryUserByNameAndPwd(String name, String pwd);
+    Serializable save(User user);
+    void saveOrUpdate(User user);
+    void merge(User user);
+    User find(long id);
+    User  findUser(User user);
 }

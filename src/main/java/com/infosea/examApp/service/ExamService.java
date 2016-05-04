@@ -14,7 +14,7 @@ public interface ExamService {
     List<Exam> findAll();
     Exam findExam(long id);
     long save(Exam exam);
-    public Exam findExamByExamIdandUserId(long eid, long uid);
-    public void delete(long id);
-    public void update(Exam exam);
+    Exam findExamByExamIdandUserId(long eid, long uid);
+    void delete(long id);
+    void update(Exam exam);
 }

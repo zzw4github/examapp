@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface UserService {
-        public boolean login (User user);
-        public long save(User user);
-        public void saveOrUpdate(User user);
-        public void merge(User user);
-        public User find(long id);
-        public User  findUser(User user);
+        boolean login(User user);
+        long save(User user);
+        void saveOrUpdate(User user);
+        void merge(User user);
+        User find(long id);
+        User  findUser(User user);
 
 
 }

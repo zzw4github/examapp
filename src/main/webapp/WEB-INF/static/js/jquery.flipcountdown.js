@@ -179,7 +179,7 @@ jQuery.fn.flipCountDown = jQuery.fn.flipcountdown = function( _options ){
 	return this.each(function(){
 		var $box = $(this);
 		if( !$box.data('setOptions') ){
-			$box.addClass('xdsoft')
+			$box.addClass('xdsoft');
 			createFlipCountDown($box);
 		}
 		$box.data('setOptions')&&

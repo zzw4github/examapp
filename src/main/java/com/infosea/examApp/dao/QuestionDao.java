@@ -9,9 +9,9 @@ import java.util.List;
  * Created by infosea on 2016/4/20.
  */
 public interface QuestionDao {
-    public Serializable save(Question querstion);
-    public Question find(long id);
-    public List<Question> findAll();
-    public List<Question> findByHQL(String hql);
-    public void update(Question question);
+    Serializable save(Question querstion);
+    Question find(long id);
+    List<Question> findAll();
+    List<Question> findByHQL(String hql);
+    void update(Question question);
 }
