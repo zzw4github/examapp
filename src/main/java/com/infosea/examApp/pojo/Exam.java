@@ -14,18 +14,18 @@ import java.util.List;
 @Entity
 public class Exam {
     @Id
-    @GenericGenerator(name = "increment" ,strategy = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     @GeneratedValue(generator = "increment")
     private long id;
 
     @OneToOne
     private User user;
 
-    @OneToMany(mappedBy ="exam" ,cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Answer> answer = new ArrayList<>();
 
     @Temporal(TemporalType.DATE)
-    @Column( nullable = false, length = 10,name = "examdate")
+    @Column(nullable = false, length = 10, name = "examdate")
     private Date date;
 
     @Column
@@ -38,7 +38,7 @@ public class Exam {
     private char validFlag;
 
     @OneToOne
-    private TestPaper testPaper;
+    private TestPaperDefine testPaperDefine;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "begin_time")
@@ -50,6 +50,11 @@ public class Exam {
 
     @Column(name = "examscore")
     private long score;
+
+    public Exam() {
+    }
+
+
     public long getId() {
         return id;
     }
@@ -90,12 +95,16 @@ public class Exam {
         this.id = id;
     }
 
-    public TestPaper getTestPaper() {
-        return testPaper;
+    public void setAnswer(List<Answer> answer) {
+        this.answer = answer;
     }
 
-    public void setTestPaper(TestPaper testPaper) {
-        this.testPaper = testPaper;
+    public TestPaperDefine getTestPaperDefine() {
+        return testPaperDefine;
+    }
+
+    public void setTestPaperDefine(TestPaperDefine testPaperDefine) {
+        this.testPaperDefine = testPaperDefine;
     }
 
     public long getScore() {

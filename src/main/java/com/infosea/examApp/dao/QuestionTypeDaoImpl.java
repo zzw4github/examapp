@@ -15,18 +15,50 @@ import java.io.Serializable;
 public class QuestionTypeDaoImpl implements QuestionTypeDao {
     @Autowired
     private SessionFactory sessionFactory;
+
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
+
+    /**
+     * 增加试题类型
+     * @param questionType
+     * @return
+     */
+    @Override
+    @Transactional
+    public Serializable save(QuestionType questionType) {
+        return this.sessionFactory.getCurrentSession().save(questionType);
+    }
+
+    /**
+     * 删除试题类型
+     * @param questionType
+     */
+    @Override
+    public void delete(QuestionType questionType) {
+        this.sessionFactory.getCurrentSession().delete(questionType);
+    }
+
+    /**
+     * 修改试题类型
+     * @param questionType
+     */
+    @Override
+    public void update(QuestionType questionType) {
+        this.sessionFactory.getCurrentSession().update(questionType);
+    }
+
+    /**
+     * 查询试题类型
+     * @param id
+     * @return
+     */
     @Override
     @Transactional
     public QuestionType find(long id) {
         return this.sessionFactory.getCurrentSession().byId(QuestionType.class).load(id);
     }
 
-    @Override
-    @Transactional
-    public Serializable save(QuestionType questionType) {
-        return this.sessionFactory.getCurrentSession().save(questionType);
-    }
+
 }

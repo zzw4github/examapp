@@ -10,7 +10,9 @@ import java.util.List;
  */
 public interface OptionDao {
     Option find(long id);
+
     Serializable save(Option option);
+
     List<Option> findAll();
 
 }

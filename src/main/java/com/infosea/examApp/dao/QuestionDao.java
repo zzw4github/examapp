@@ -10,8 +10,14 @@ import java.util.List;
  */
 public interface QuestionDao {
     Serializable save(Question querstion);
+
     Question find(long id);
+
     List<Question> findAll();
+
     List<Question> findByHQL(String hql);
+
     void update(Question question);
+
+    void delete(Question question);
 }

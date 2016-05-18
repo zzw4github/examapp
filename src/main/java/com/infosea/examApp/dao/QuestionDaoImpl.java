@@ -16,34 +16,69 @@ import java.util.List;
 public class QuestionDaoImpl implements QuestionDao {
     @Autowired
     private SessionFactory sessionFactory;
+
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
-    @Override
 
+
+    /**
+     * 删除对象
+     * @param querstion
+     * @return
+     */
+    @Override
     public Serializable save(Question querstion) {
         return this.sessionFactory.getCurrentSession().save(querstion);
     }
 
+    /**
+     * 查找对象
+     * @param id
+     * @return
+     */
     @Override
     @Transactional
     public Question find(long id) {
         return this.sessionFactory.getCurrentSession().byId(Question.class).load(id);
     }
 
+    /**
+     * 查找所有问题
+     * @return
+     */
     @Override
 
     public List<Question> findAll() {
-        return this.sessionFactory.getCurrentSession().createQuery(" from Question").list();
+        return this.sessionFactory.getCurrentSession().createQuery(" from com.infosea.examApp.pojo.Question").list();
     }
+
+    /**
+     * 通过hql查找
+     * @param hql
+     * @return
+     */
     @Override
-
-    public List<Question> findByHQL(String hql){
-        return  this.sessionFactory.getCurrentSession().createQuery(hql).list();
+    public List<Question> findByHQL(String hql) {
+        return this.sessionFactory.getCurrentSession().createQuery(hql).list();
     }
 
+    /**
+     * 修改问题
+     * @param question
+     */
     @Override
     public void update(Question question) {
         this.sessionFactory.getCurrentSession().saveOrUpdate(question);
+    }
+
+    /**
+     * 删除问题
+     * @param question
+     */
+    @Override
+    public void delete(Question question) {
+        question  = find(question.getId());
+        this.sessionFactory.getCurrentSession().delete(question);
     }
 }

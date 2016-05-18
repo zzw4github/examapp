@@ -12,9 +12,9 @@ import java.util.List;
 @Service
 public interface ExamService {
     List<Exam> findAll();
-    Exam findExamByID(long id);
+    Exam findByID(long id);
     long save(Exam exam);
-    Exam findExamByEidAndUid(long eid, long uid);
+    Exam findByEidAndUid(long eid, long uid);
     void delete(long id);
     void update(Exam exam);
     List<Exam> findByUserId(long uid);

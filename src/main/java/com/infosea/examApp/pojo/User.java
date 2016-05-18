@@ -4,6 +4,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.annotation.Generated;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by infosea on 2016/4/19.
@@ -41,6 +43,9 @@ public class User {
 
     @Column
     private String situation;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    List<TestPaperDefine> testPaperDefines = new ArrayList<>();
 
     public User() {
     }
@@ -134,5 +139,13 @@ public class User {
         this.situation = situation;
     }
 
+
+    public List<TestPaperDefine> getTestPaperDefines() {
+        return testPaperDefines;
+    }
+
+    public void setTestPaperDefines(List<TestPaperDefine> testPaperDefines) {
+        this.testPaperDefines = testPaperDefines;
+    }
 
 }

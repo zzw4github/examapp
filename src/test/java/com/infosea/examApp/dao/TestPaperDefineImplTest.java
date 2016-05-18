@@ -6,6 +6,12 @@ import com.infosea.examApp.dao.TestPaperDefineDao;
 import com.infosea.examApp.pojo.Question;
 import com.infosea.examApp.pojo.QuestionType;
 import com.infosea.examApp.pojo.TestPaperDefine;
+import com.infosea.examApp.pojo.User;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -19,16 +25,19 @@ import javax.annotation.Resource;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:root-context.xml")
 public class TestPaperDefineImplTest {
+    Logger logger = LogManager.getLogger(TestPaperDefineImplTest.class);
     @Resource
     TestPaperDefineDao testPaperDefineDao;
     @Resource
     QuestionTypeDao questionTypeDao;
     @Resource
     QuestionDao questionDao;
+    @Resource
+    UserDao userDao;
     @Test
     public void testSave() throws Exception {
         TestPaperDefine testPaperDefine = new TestPaperDefine("试卷一（包含选择题判断题多选题）");
-
+        User user = userDao.find(2);
         QuestionType slgc = questionTypeDao.find(1L);
         QuestionType mugc = questionTypeDao.find(2L);
         QuestionType tof = questionTypeDao.find(3L);
@@ -52,8 +61,10 @@ public class TestPaperDefineImplTest {
         testPaperDefine.getQuestionTypes().add(slgc);
         testPaperDefine.getQuestionTypes().add(mugc);
         testPaperDefine.getQuestionTypes().add(tof);
-
         testPaperDefineDao.save(testPaperDefine);
+        user.getTestPaperDefines().add(testPaperDefine);
+        userDao.saveOrUpdate(user);
+        logger.log(Level.INFO,"this is a message");
 
     }
 }

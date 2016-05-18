@@ -18,8 +18,17 @@ public class TestPaperDefine {
     @Column(name="tpd_name")
     private String name;
 
+    @Column private  String use;
+//    @ManyToMany(mappedBy ="id" )
+//    List<User> users = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL)
     private List<QuestionType> questionTypes = new ArrayList<>();
+
+
+    public TestPaperDefine() {
+    }
+
+
 
     public TestPaperDefine(String name) {
         this.name = name;
@@ -48,4 +57,19 @@ public class TestPaperDefine {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getUse() {
+        return use;
+    }
+
+    public void setUse(String use) {
+        this.use = use;
+    }
+//    public List<User> getUsers() {
+//        return users;
+//    }
+//
+//    public void setUsers(List<User> users) {
+//        this.users = users;
+//    }
 }

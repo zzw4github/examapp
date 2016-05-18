@@ -1,0 +1,6 @@
+2016-05-18 16:01:21,351 INFO o.h.Version [main] HHH000412: Hibernate Core {5.1.0.Final}
+2016-05-18 16:01:21,353 INFO o.h.c.Environment [main] HHH000206: hibernate.properties not found
+2016-05-18 16:01:21,354 INFO o.h.c.Environment [main] HHH000021: Bytecode provider name : javassist
+2016-05-18 16:01:21,391 INFO o.h.a.c.Version [main] HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2016-05-18 16:01:21,555 INFO o.h.d.Dialect [main] HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2016-05-18 16:01:22,804 INFO c.i.e.d.TestPaperDefineImplTest [main] this is a message

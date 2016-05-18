@@ -87,7 +87,7 @@ public class ExamController {
                 String name = request.getParameter("name");
                 String date = request.getParameter("date");
                 String flag = request.getParameter("valid");
-                Exam exam =examService.findExamByID(Long.valueOf(eid));
+                Exam exam =examService.findByID(Long.valueOf(eid));
                 exam.setDate(new Date(date));
                 exam.setValidFlag(flag.charAt(0));
                 exam.setDesc(name);

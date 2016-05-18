@@ -63,7 +63,7 @@ public class MainController {
         exam.setValidFlag('Y');
         exam.setUser(user);
         exam.setTime(1);
-        exam.setTestPaper(testPaper);
+//        exam.setTestPaperDefine(testPaper);
         long examId = examService.save(exam);//加入 考试 一行
 
         //获得当前试卷的所有试题id
@@ -74,7 +74,7 @@ public class MainController {
         qids = qids.substring(0, qids.lastIndexOf(","));
         //返回 试题 第一条数据
         String hql = "select q from Question q left join fetch q.questionType left join fetch q.option where q.id in (" + qids + ") order by q.id asc";
-        List<Question> questions = pageUtil.findPageByQuery(1, 1, hql);
+        List<Question> questions = pageUtil.findPageByHql(1, 1, hql);
         List<Question> all = questionService.findByHQL(hql);
         PageBean pageBean = new PageBean(all.size());
         pageBean.setCurPage(1);
@@ -141,7 +141,7 @@ public class MainController {
             pageBean.setCurPage(Integer.parseInt(spage));
         }
         String hql = "select q from Question q left join fetch q.questionType left join fetch q.option where q.id in (" + qids + ") order by q.id asc";
-        List<Question> questions = pageUtil.findPageByQuery(pageBean.getCurPage(), pageBean.getPageSize(), hql);
+        List<Question> questions = pageUtil.findPageByHql(pageBean.getCurPage(), pageBean.getPageSize(), hql);
         request.getSession().setAttribute("pageBean", pageBean);
         request.getSession().setAttribute("questions", questions);
         return "main";
@@ -187,7 +187,7 @@ public class MainController {
     public String page(@PathVariable int pageCount, HttpServletRequest request) {
         String qids = (String) request.getSession().getAttribute("qids");
         String hql = "select q from Question q left join fetch q.questionType left join fetch q.option where q.id in (" + qids + ") order by q.id asc";
-        List<Question> questions = pageUtil.findPageByQuery(pageCount, 1, hql);
+        List<Question> questions = pageUtil.findPageByHql(pageCount, 1, hql);
         PageBean pageBean = ((PageBean) request.getSession().getAttribute("pageBean"));
         pageBean.setCurPage(pageCount);
         request.getSession().setAttribute("pageBean", pageBean);
@@ -197,7 +197,7 @@ public class MainController {
 
     @RequestMapping(value = "/getExam", method = RequestMethod.GET)
     public String getExam(HttpServletRequest request) {
-        Exam exam = examService.findExamByEidAndUid(2L, 1L);
+        Exam exam = examService.findByEidAndUid(2L, 1L);
         request.setAttribute("exam", exam);
         return "exam";
     }
