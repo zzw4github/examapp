@@ -8,7 +8,6 @@ import com.infosea.examApp.service.*;
 import com.infosea.examApp.vo.PageBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,17 +36,24 @@ public class MainController {
     @Autowired
     PageUtil<Question> pageUtil;
     @Autowired
-    BaseService baseService;
+    CommonService commonService;
     @Autowired
     TestPaperService testPaperService;
 
     Map<String, String> map = new HashMap<>();
     Map<String, String> map2 = new HashMap<>();
 
+    /**
+     * 读者登录后返回一套试卷
+     * @TODO 点击开始考试后返回一套试卷
+     * @param user
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String main1(@ModelAttribute("user") User user, HttpServletRequest request) {
         user = userService.findUser(user);
-        int maxTestPaperId = baseService.findMaxId("select max(id) from testPaper");
+        int maxTestPaperId = commonService.findMaxId("select max(id) from testPaper");
         Random random = new Random();
         int testPaperId = random.nextInt(maxTestPaperId) + 1;
         TestPaper testPaper = testPaperService.findTestPaperById(testPaperId);
@@ -85,7 +91,13 @@ public class MainController {
         return "main";
     }
 
-    //    单个问题提交时，保存到session中，并返回下一个问题
+    /**
+     * 单个问题提交时，保存到session中，并返回下一个问题
+     * @TODO 将答案保存到数据库
+     * @param request
+     * @return
+     */
+    //
     @RequestMapping(value = "/main/single", method = RequestMethod.POST)
     public String page(HttpServletRequest request) {
         String qids = (String) request.getSession().getAttribute("qids");
@@ -135,8 +147,11 @@ public class MainController {
         return "main";
     }
 
-    /*
-        @description 提交试卷
+    /**
+     *  @description 提交试卷
+     * 将答案保存到数据库中
+     * @param request
+     * @param response
      */
     @RequestMapping(value = "/main/flash", method = RequestMethod.GET)
     public void flash(HttpServletRequest request, HttpServletResponse response) {
@@ -146,11 +161,11 @@ public class MainController {
         for (Iterator<Question> item = questions.iterator(); item.hasNext(); ) {
             Question question = item.next();
             String qid = String.valueOf(question.getId());
-            int score = Integer.parseInt(question.getQuestionType().getScore());
+//            int score = Integer.parseInt(question.getQuestionType().getScore());
             String answer = question.getStdAnswer();
             String answer1 = map.get(qid);
             if (answer.equals(answer1)) {
-                toatalScore += score;
+//                toatalScore += score;
             }
         }
         Exam exam = (Exam)request.getSession().getAttribute("exam");
@@ -182,7 +197,7 @@ public class MainController {
 
     @RequestMapping(value = "/getExam", method = RequestMethod.GET)
     public String getExam(HttpServletRequest request) {
-        Exam exam = examService.findExamByExamIdandUserId(2L, 1L);
+        Exam exam = examService.findExamByEidAndUid(2L, 1L);
         request.setAttribute("exam", exam);
         return "exam";
     }
@@ -196,8 +211,8 @@ public class MainController {
         optionService.save(option);
         Question question = new Question();
         question.setDate(new Date());
-        question.setQuestionType(questionType);
-        question.setQuestion("问题一");
+//        question.setQuestionType(questionType);
+        question.setContent("问题一");
         question.setDesc("问题一");
         question.setOption(option);
         questionService.save(question);

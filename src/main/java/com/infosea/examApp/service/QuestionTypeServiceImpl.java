@@ -1,6 +1,5 @@
 package com.infosea.examApp.service;
 
-import com.infosea.examApp.dao.QuestionDao;
 import com.infosea.examApp.dao.QuestionTypeDao;
 import com.infosea.examApp.pojo.QuestionType;
 import org.springframework.beans.factory.annotation.Autowired;

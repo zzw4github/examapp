@@ -2,6 +2,7 @@ package com.infosea.examApp.service;
 
 import com.infosea.examApp.pojo.Question;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -13,4 +14,5 @@ public interface QuestionService {
     List<Question> findAll();
     List<Question> findByHQL(String hql);
     void update(Question question);
+    void saveQuestionFromFile(File file);
 }

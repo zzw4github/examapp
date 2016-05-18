@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 /**
  * Created by infosea on 2016/4/19.
+ * 用户表
  */
 @Entity
 public class User {
@@ -16,9 +17,78 @@ public class User {
    @GeneratedValue(generator = "increment")
     private long id;
     @Column
-    private String name;
+    private String tmh;
     @Column
+    private String name;
+
+    @Column
+    private String sex;
+
+    @Column
+    private String yjdw;
+
+
+    @Column
+    private  String ejdw;
+
+    @Column
+    private String card_number;
+
+    @Column(updatable = false)
     private String pwd;
+
+    private String permission;
+
+    @Column
+    private String situation;
+
+    public User() {
+    }
+
+    public User(String tmh, String name) {
+        this.tmh = tmh;
+        this.name = name;
+    }
+
+    public String getTmh() {
+        return tmh;
+    }
+
+    public void setTmh(String tmh) {
+        this.tmh = tmh;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getYjdw() {
+        return yjdw;
+    }
+
+    public void setYjdw(String yjdw) {
+        this.yjdw = yjdw;
+    }
+
+    public String getEjdw() {
+        return ejdw;
+    }
+
+    public void setEjdw(String ejdw) {
+        this.ejdw = ejdw;
+    }
+
+    public String getCard_number() {
+        return card_number;
+    }
+
+    public void setCard_number(String card_number) {
+        this.card_number = card_number;
+    }
 
     public String getName() {
         return name;
@@ -43,4 +113,26 @@ public class User {
     public void setId(long id) {
         this.id = id;
     }
+
+
+
+    public String getPermission() {
+        return permission;
+    }
+
+    public void setPermission(String permission) {
+        this.permission = permission;
+    }
+
+
+
+    public String getSituation() {
+        return situation;
+    }
+
+    public void setSituation(String situation) {
+        this.situation = situation;
+    }
+
+
 }

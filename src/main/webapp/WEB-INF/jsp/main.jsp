@@ -1,6 +1,4 @@
 <%@ page import="com.infosea.examApp.vo.PageBean" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="java.util.Iterator" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -33,26 +31,6 @@
     <!--[if lt IE 9]>
     <script src="/js/html5shiv.min.js"></script>
     <script src="/js/respond.min.js"></script>
-    <script src="/js/highlight.min.js"></script>
-    <style type="text/css">
-        .pagination > li > input{
-            display: inline;
-            position: relative;
-            float: left;
-            padding: 6px 12px;
-            margin-left: -1px;
-            line-height: 1.42857143;
-            color: #337ab7;
-            text-decoration: none;
-            background-color: #fff;
-            border: 1px solid #ddd;
-        }
-
-        .pagination > li:last-child > input{
-            border-top-right-radius: 4px;
-            border-bottom-right-radius: 4px;
-        }
-    </style>
     <![endif]-->
 
 </head>
@@ -106,7 +84,6 @@
                             </div>
                         </c:forEach>
                     </c:if>
-a
                 </c:forEach>
                 <button type="submit" class="btn btn-primary">提交</button>
                 <input type="button" class="btn btn-danger" id="tijiao" value="完成测试"/>

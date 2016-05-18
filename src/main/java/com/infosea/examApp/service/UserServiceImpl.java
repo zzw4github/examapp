@@ -1,11 +1,13 @@
 package com.infosea.examApp.service;
 
 import com.infosea.examApp.dao.UserDao;
-import com.infosea.examApp.pojo.Exam;
 import com.infosea.examApp.pojo.User;
+import com.infosea.examApp.vo.PageBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by infosea on 2016/4/19.
@@ -14,11 +16,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
     @Autowired
     UserDao userDao ;
-    @Override
 
-    public boolean login(User user) {
-     User usr =userDao.queryUserByNameAndPwd(user.getName(),user.getPwd());
-        return usr!=null;
+    /**
+     *
+     * @param user
+     * @return
+     */
+    @Override
+    public User login(User user) {
+     User usr =userDao.queryUserByTmhAndPwd(user.getTmh(),user.getPwd());
+        return usr;
     }
 
     @Override
@@ -45,5 +52,30 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUser(User user) {
         return userDao.findUser(user);
+    }
+
+    @Override
+    public User findUserByTmh(String tmh) {
+        return userDao.findUserByTmh(tmh);
+    }
+
+    @Override
+    public boolean deleteUser(String tmh) {
+        User user = userDao.findUserByTmh(tmh);
+        if(user != null) {
+            return false;
+        }else {
+            userDao.delUser(user);
+            return  true;
+        }
+    }
+
+    @Override
+    public PageBean findAllUser( int pageCount, int curPage,Map<String,String> map) {
+        List<User> users =  userDao.findAllUser(pageCount,curPage,map);
+        long totalCount = userDao.getCounts();
+        PageBean<User> pageBean = new PageBean((int)totalCount);
+        pageBean.setObjects(users);
+        return pageBean;
     }
 }

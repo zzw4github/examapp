@@ -1,7 +1,9 @@
 package com.infosea.examApp.util;
 
 import org.apache.poi.hwpf.extractor.WordExtractor;
+import org.springframework.stereotype.Repository;
 
+import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -19,6 +21,7 @@ import java.util.Map;
  * check 判断题
  *
  */
+@Repository
 public class POI {
     int flagCheck = 0;
     int flagChoose = 0;
@@ -26,7 +29,7 @@ public class POI {
     int x = 0;
     int count = 0;
 // 将 doc 文件 按题型 放到list中
-    public Map<String, List<String>> testReadByExtractor(File file) throws Exception {
+    public Map<String, List<String>> readByExtractor(File file) throws Exception {
         Map<String, List<String>> questionMap = new HashMap<>();
         List<String> listChoose = new ArrayList<String>();
         List<String> listChooseMore = new ArrayList<String>();
@@ -88,13 +91,13 @@ public class POI {
         this.closeStream(is);
         questionMap.put("choose", listChoose);
         questionMap.put("check", listCheck);
-        questionMap.put("choosemore", listChooseMore);
+        questionMap.put("chooseMore", listChooseMore);
         return questionMap;
     }
 
     public void putIntoList(List<String> questionlist, StringBuilder questionString) {
         String outString = questionString.toString();
-        List<String> l = RegularEx1.findDigital(outString);
+        List<String> l = RegularEx.findDigital(outString);
         int i = 0;
         String[] strs = outString.split("\\d+、");
         for (String ss : strs) {
@@ -118,7 +121,7 @@ public class POI {
     public static void main(String[] args) {
         POI poi = new POI();
         try {
-            Map<String, List<String>> questionMap = poi.testReadByExtractor(new File("湖南人文科技学院图书馆新生入馆教育考试题库.doc"));
+            Map<String, List<String>> questionMap = poi.readByExtractor(new File("湖南人文科技学院图书馆新生入馆教育考试题库.doc"));
             for (Map.Entry<String, List<String>> entry : questionMap.entrySet()) {
                 String kind = entry.getKey();
                 List<String> val = entry.getValue();

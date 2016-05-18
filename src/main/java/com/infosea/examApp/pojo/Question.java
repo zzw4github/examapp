@@ -19,19 +19,21 @@ public class Question {
     @GeneratedValue(generator = "increment")
     private long id;
     @Column
-    private String question;
+    private String content;
     private String stdAnswer;
-    @OneToOne
-    @JoinColumn( name = "questionType_id")
-    //这个设为双向绑定的时候 mappedby不能是 QuestionType
-//    不知道能不能设为双向
-    private QuestionType questionType;
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn( name = "questionType_id")
+//    //这个设为双向绑定的时候 mappedby不能是 QuestionType
+////    不知道能不能设为双向
+//    private QuestionType questionType;
 
     @OneToOne(cascade= CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "option_id")
     private Option option ;
+
     @Column(name="desc1")
     private String desc;
+
     @Temporal(TemporalType.DATE)
     @Column( nullable = false, length = 10)
     private Date date;
@@ -40,21 +42,21 @@ public class Question {
         return id;
     }
 
-    public String getQuestion() {
-        return question;
+    public String getContent() {
+        return content;
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public QuestionType getQuestionType() {
-        return questionType;
-    }
-
-    public void setQuestionType(QuestionType questionType) {
-        this.questionType = questionType;
-    }
+//        public QuestionType getQuestionType() {
+//        return questionType;
+//    }
+//
+//    public void setQuestionType(QuestionType questionType) {
+//        this.questionType = questionType;
+//    }
 
     public String getDesc() {
         return desc;

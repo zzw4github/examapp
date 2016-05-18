@@ -2,11 +2,9 @@ package com.infosea.examApp.service;
 
 import com.infosea.examApp.dao.OptionDao;
 import com.infosea.examApp.pojo.Option;
-import com.sun.xml.internal.ws.developer.Serialization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**

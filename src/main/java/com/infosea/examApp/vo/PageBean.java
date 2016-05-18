@@ -1,16 +1,26 @@
 package com.infosea.examApp.vo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by infosea on 2016/4/20.
  */
-public class PageBean {
+public class PageBean<T> {
     private int curPage =1;             //当前页
     private int pageCount =1;           //总页数
     private int rowsCount;           //总行数
     private int pageSize=1;         //每页多少行
 
+    private List<T> objects = new ArrayList<>();
 
+    public List<T> getObjects() {
+        return objects;
+    }
 
+    public void setObjects(List<T> objects) {
+        this.objects = objects;
+    }
 
     public PageBean(int rows){
 

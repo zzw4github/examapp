@@ -15,7 +15,7 @@ import java.util.List;
 public class PageModel<T> {
     private int page = 1; // 当前页
     public int totalPages = 0; // 总页数
-    private int pageRecorders;// 每页5条数据
+    private int pageRecorders;// 每页几条条数据
     private int totalRows = 0; // 总数据数
     private int pageStartRow = 0;// 每页的起始数
     private int pageEndRow = 0; // 每页显示数据的终止数

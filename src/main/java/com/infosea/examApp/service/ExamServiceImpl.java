@@ -17,35 +17,48 @@ public class ExamServiceImpl  implements ExamService{
     ExamDao examDao;
     @Override
     @Transactional
-    public Exam findExam(long id) {
-       Exam exam = examDao.findExam(id);
+    public Exam findExamByID(long id) {
+       Exam exam = examDao.findExamByID(id);
         return exam;
     }
-    @Transactional
+
     @Override
+    @Transactional
     public long save(Exam exam) {
         long examid =(long)examDao.save(exam);
        return  examid;
     }
-    @Transactional
+
     @Override
-    public Exam findExamByExamIdandUserId(long eid, long uid) {
-        return examDao.findExamByExamIdandUserId(eid,uid);
+    public Exam findExamByEidAndUid(long eid, long uid) {
+        return examDao.findExamByEidAndUid(eid,uid);
     }
-    @Transactional
+
     @Override
     public List<Exam> findAll() {
         return examDao.findAllExam();
     }
-    @Transactional
+
     @Override
     public void delete(long id) {
-        Exam exam =examDao.findExam(id);
+        Exam exam =examDao.findExamByID(id);
         examDao.del(exam);
     }
-    @Transactional
+
     @Override
     public void update(Exam exam) {
         examDao.update(exam);
+    }
+
+
+
+    @Override
+    public List<Exam> findByUserId(long uid) {
+        return examDao.queryByUserId(uid);
+    }
+
+    @Override
+    public List<Exam> findALl(String hql) {
+        return examDao.selectAll(hql);
     }
 }

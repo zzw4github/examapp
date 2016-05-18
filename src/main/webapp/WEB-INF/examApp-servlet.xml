@@ -11,13 +11,22 @@ http://www.springframework.org/schema/context/spring-context.xsd
  http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 ">
     <context:component-scan base-package="com.infosea.examApp.controller"></context:component-scan>
-    <mvc:annotation-driven  />
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes" value = "text/plain;charset=UTF-8" />
+            </bean>
+        </mvc:message-converters>
+            </mvc:annotation-driven>
     <mvc:resources mapping="/icon/**" location="/WEB-INF/static/icon/"/>
     <mvc:resources mapping="/js/**" location="/WEB-INF/static/js/"/>
     <mvc:resources mapping="/css/**" location="/WEB-INF/static/css/"/>
-    <mvc:resources mapping="/images/**" location="/WEB-INF/static/image/"/>
+    <mvc:resources mapping="/head/**" location="/WEB-INF/static/head/"/>
+    <mvc:resources mapping="/images/**" location="/WEB-INF/static/images/"/>
+    <mvc:resources mapping="/image/**" location="/WEB-INF/static/image/"/>
+    <mvc:resources mapping="/img/**" location="/WEB-INF/static/img/"/>
     <mvc:resources mapping="/fonts/**" location="/WEB-INF/static/font/"/>
-    <mvc:default-servlet-handler />
+    <mvc:default-servlet-handler/>
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
         <property name="prefix" value="/WEB-INF/jsp/"/>

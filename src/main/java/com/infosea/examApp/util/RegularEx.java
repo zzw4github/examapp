@@ -5,7 +5,11 @@
  */
 package com.infosea.examApp.util;
 
+import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,17 +18,19 @@ import java.util.regex.Pattern;
  * @author infosea
  * 试题中正确答案可以用括号，其他地方不要用括号
  */
+@Repository
 public class RegularEx {
 //                                           题号      题干    括号  答案    括号   题干   括号    答案   括号   题干   括号  答案   括号   题干   括号       答案        括号               题干          A答案             B答案后面的内容
 //    public static final String str1 =  "(\\d+、)?(\\s?)?(（?)?(\\S+)?(）?)?(\\S+)?(（?)?(\\S+)?(）?)?(\\S*)?(（?)?(\\S+)?(）?)?(\\S+)?(?=（)(（)(\\S+)?(?=）)(）)(\\S+)?(?=A、)(A、)?(.*)?(?=B、)(B、)?(.*)?";
     public static final String str1 =  "(\\d+、)?(（\\s)?([A-Z]+)?(）\\s)?(\\S+)?(（\\s)?([A-Z]+)?(）\\s)?(\\S+)?(（\\s)?([A-Z]+)?(）\\s)?(\\S+)?(?=（ )(（ )([A-Z]+)?(?=） )(） )(\\S+)?(?= A、)( A、)?(.*)?(?= B、)( B、)?(.*)?";
     public static final String str2 = "(\\d+、)?(\\S+\\s?)?(（)(\\s?\\S+\\s?)?(?=）)(）)?(\\s?\\S*\\s?)?(?=A、)(A、)?(.*)?(?=B、)(B、)?(.*)?";
 
-    public static String str6 = "\\d+、";
+    public static final String regex_dig = "\\d+、";
     public static Pattern pattern;
     public static Pattern pattern1 = Pattern.compile(str1);
-    public static Pattern pattern2 = Pattern.compile(str2);
+    public static Pattern pattern_dig = Pattern.compile(regex_dig);
     public static Matcher coreMatcher;
+    public static Matcher digMatcher;
     StringBuilder questionBuilder = new StringBuilder();
     StringBuilder optionBuilder = new StringBuilder();
 
@@ -164,8 +170,20 @@ public class RegularEx {
 
     public static void main(String[] args) {
         String str = "";
-        str="29、联机公共目录查询系统，英文缩写为（ A） ，是图书馆自动化系统面向用户的窗口。 A、 OPACB、 IFLAC、 OCLCD、NSTL";
-        RegularEx regularEx = new RegularEx();
-            Map<String, String> map = regularEx.getQuestionFromUniformStringByRegex(str);
+        str="29、联39、联49、联59、联69、联79、联89、联";
+          RegularEx regularEx = new RegularEx();
+        regularEx.getQuestionFromUniformStringByRegex(str);
+
+    }
+
+    public static List<String> findDigital(String outString) {
+        List<String> list_dig = new ArrayList<>();
+        digMatcher = pattern_dig.matcher(outString);
+        while (digMatcher.find()) {
+            String mstr = digMatcher.group();
+            System.out.println(mstr);
+            list_dig.add(mstr);
+        }
+        return list_dig;
     }
 }

@@ -45,5 +45,5 @@ http://www.springframework.org/schema/context/spring-context.xsd
         <property name="sessionFactory" ref="mySessionFactory"/>
     </bean>
     <!--采用注解来管理Bean	-->
-    <tx:annotation-driven/>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 </beans>
