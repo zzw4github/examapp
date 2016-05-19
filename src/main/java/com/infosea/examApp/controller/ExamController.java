@@ -89,7 +89,7 @@ public class ExamController {
                 String flag = request.getParameter("valid");
                 Exam exam =examService.findByID(Long.valueOf(eid));
                 exam.setDate(new Date(date));
-                exam.setValidFlag(flag.charAt(0));
+                exam.setValidFlag(flag);
                 exam.setDesc(name);
                 examService.update(exam);
                 response.getWriter().write("{\"success\":true,\"message\":\"修改成功\"}");

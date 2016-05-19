@@ -1,5 +1,6 @@
 package com.infosea.examApp.controller;
 
+import com.google.common.base.Strings;
 import com.infosea.examApp.dao.PageUtil;
 import com.infosea.examApp.pojo.*;
 import com.infosea.examApp.service.*;
@@ -26,6 +27,8 @@ public class MainController {
     @Autowired
     ExamService examService;
     @Autowired
+    TypeService typeService;
+    @Autowired
     QuestionService questionService;
     @Autowired
     QuestionTypeService questionTypeService;
@@ -40,8 +43,11 @@ public class MainController {
     @Autowired
     TestPaperService testPaperService;
 
-    Map<String, String> map = new HashMap<>();
-    Map<String, String> map2 = new HashMap<>();
+    @Autowired
+   AnswerService answerService;
+
+    Map<String, String> qidMap = new HashMap<>(); //qidMap
+    Map<String, String> answerMap = new HashMap<>();//answerMap
 
     /**
      * 读者登录后返回一套试卷
@@ -53,41 +59,24 @@ public class MainController {
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String main1(@ModelAttribute("user") User user, HttpServletRequest request) {
         user = userService.findUser(user);
-        int maxTestPaperId = commonService.findMaxId("select max(id) from testPaper");
-        Random random = new Random();
-        int testPaperId = random.nextInt(maxTestPaperId) + 1;
-        TestPaper testPaper = testPaperService.findTestPaperById(testPaperId);
-        Exam exam = new Exam();
-        exam.setDate(new Date());
-        exam.setDesc("入馆教育考试");
-        exam.setValidFlag('Y');
-        exam.setUser(user);
-        exam.setTime(1);
-//        exam.setTestPaperDefine(testPaper);
-        long examId = examService.save(exam);//加入 考试 一行
-
-        //获得当前试卷的所有试题id
-        String sglc_ids = testPaper.getSglc_ids();
-        String mulc_ids = testPaper.getMulc_ids();
-        String tof_ids = testPaper.getTof_ids();
-        String qids = sglc_ids + tof_ids + mulc_ids;
-        qids = qids.substring(0, qids.lastIndexOf(","));
+        String testPaperDefineId = request.getParameter("testPaperDefineID");
+        if(Strings.isNullOrEmpty(testPaperDefineId)){
+            testPaperDefineId = "1";
+        }
+        Exam exam = examService.produceExam(user,Integer.parseInt(testPaperDefineId));
+        TestPaper testPaper = exam.getTestPaper();
+        long testPaperId = testPaper.getId();
+        String qids = exam.getTestPaper().getQuestions_id();
+         qids = qids.substring(0, qids.lastIndexOf(","));
         //返回 试题 第一条数据
-        String hql = "select q from Question q left join fetch q.questionType left join fetch q.option where q.id in (" + qids + ") order by q.id asc";
-        List<Question> questions = pageUtil.findPageByHql(1, 1, hql);
-        List<Question> all = questionService.findByHQL(hql);
-        PageBean pageBean = new PageBean(all.size());
-        pageBean.setCurPage(1);
-        pageBean.setPageSize(1);
 
-        request.getSession().setAttribute("temp2", map2);
-        request.getSession().setAttribute("temp", map);
+       PageBean<Question> pageBean = questionService.find(1,1,qids);
+        request.getSession().setAttribute("answerMap", answerMap);
+        request.getSession().setAttribute("qidMap", qidMap);
         request.getSession().setAttribute("exam", exam);
         request.getSession().setAttribute("testPaperId", testPaperId);
         request.getSession().setAttribute("qids", qids);
         request.getSession().setAttribute("pageBean", pageBean);
-        request.getSession().setAttribute("questions", questions);
-
         return "main";
     }
 
@@ -97,7 +86,6 @@ public class MainController {
      * @param request
      * @return
      */
-    //
     @RequestMapping(value = "/main/single", method = RequestMethod.POST)
     public String page(HttpServletRequest request) {
         String qids = (String) request.getSession().getAttribute("qids");
@@ -116,8 +104,8 @@ public class MainController {
                 for (int i = 0; i < oidArr.length; i++) {
                     sb.append(oidArr[i]);
                 }
-                map.put(qid, sb.toString());
-                map2.put(s, sb.toString());
+                qidMap.put(qid, sb.toString());
+                answerMap.put(s, sb.toString());
             }
             if (s.equals("page")) {
                 String[] ss = (String[]) map1.get(s);
@@ -128,8 +116,8 @@ public class MainController {
                 }
             }
         }
-        request.getSession().setAttribute("temp", map);
-        request.getSession().setAttribute("temp2", map2);
+        request.getSession().setAttribute("qidMap", qidMap);
+        request.getSession().setAttribute("temp2", answerMap);
         PageBean pageBean = ((PageBean) request.getSession().getAttribute("pageBean"));
         if (spage.equals("")) {
             int curPage = pageBean.getCurPage();
@@ -140,8 +128,7 @@ public class MainController {
         } else {
             pageBean.setCurPage(Integer.parseInt(spage));
         }
-        String hql = "select q from Question q left join fetch q.questionType left join fetch q.option where q.id in (" + qids + ") order by q.id asc";
-        List<Question> questions = pageUtil.findPageByHql(pageBean.getCurPage(), pageBean.getPageSize(), hql);
+        List<Question> questions = pageUtil.findPageByHql(pageBean.getCurPage(), pageBean.getPageSize(), qids);
         request.getSession().setAttribute("pageBean", pageBean);
         request.getSession().setAttribute("questions", questions);
         return "main";
@@ -155,25 +142,37 @@ public class MainController {
      */
     @RequestMapping(value = "/main/flash", method = RequestMethod.GET)
     public void flash(HttpServletRequest request, HttpServletResponse response) {
-        int toatalScore = 0;
-        Map<String, String> map = (Map<String, String>) request.getSession().getAttribute("temp");
+        Exam exam = (Exam)request.getSession().getAttribute("exam");
+        User user = (User)request.getSession().getAttribute("user");
+        int totalScore = 0;
+        Map<String, String> map = (Map<String, String>) request.getSession().getAttribute("answerMap");
         List<Question> questions = questionService.findAll();
-        for (Iterator<Question> item = questions.iterator(); item.hasNext(); ) {
+        for (Iterator<Question> item = questions.iterator(); item.hasNext();) {
             Question question = item.next();
             String qid = String.valueOf(question.getId());
-//            int score = Integer.parseInt(question.getQuestionType().getScore());
+            long typeid = question.getType().getId();
+
+            int score = Integer.parseInt(exam.getTestPaper().getTestPaperDefine().getQuestionTypes()getgetScore());
+//          保存答案
             String answer = question.getStdAnswer();
             String answer1 = map.get(qid);
+            Answer answer2 = new Answer();
+            answer2.setQuestion(question);
+            answer2.setAnswer(answer1);
+            answer2.setExam(exam);
+            answer2.setUser(user);
+            answerService.save(answer2);
+//          保存成绩
             if (answer.equals(answer1)) {
-//                toatalScore += score;
+                toatalScore += score;
             }
         }
-        Exam exam = (Exam)request.getSession().getAttribute("exam");
-        exam.setScore(toatalScore);
+        //保存成绩
+        exam.setScore(totalScore);
         examService.update(exam);
         response.setCharacterEncoding("utf-8");
         try {
-            response.getWriter().write("你的成绩是 ：" + toatalScore);
+            response.getWriter().write("你的成绩是 ：" + totalScore);
             response.getWriter().flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -186,8 +185,7 @@ public class MainController {
     @RequestMapping(value = "/main/{pageCount}", method = RequestMethod.GET)
     public String page(@PathVariable int pageCount, HttpServletRequest request) {
         String qids = (String) request.getSession().getAttribute("qids");
-        String hql = "select q from Question q left join fetch q.questionType left join fetch q.option where q.id in (" + qids + ") order by q.id asc";
-        List<Question> questions = pageUtil.findPageByHql(pageCount, 1, hql);
+        List<Question> questions = pageUtil.findPageByHql(pageCount, 1, qids);
         PageBean pageBean = ((PageBean) request.getSession().getAttribute("pageBean"));
         pageBean.setCurPage(pageCount);
         request.getSession().setAttribute("pageBean", pageBean);
@@ -204,11 +202,13 @@ public class MainController {
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String add(@ModelAttribute("user") User user, HttpServletRequest request) {
-        QuestionType questionType = new QuestionType();
-        questionType.setDesc("单选题");
-        questionTypeService.save(questionType);
+        Type type = new Type();
+        type.setName("单选题");
+        typeService.save(type);
+
         Option option = new Option();
         optionService.save(option);
+
         Question question = new Question();
         question.setDate(new Date());
 //        question.setQuestionType(questionType);

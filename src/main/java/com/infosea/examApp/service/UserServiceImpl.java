@@ -18,7 +18,6 @@ public class UserServiceImpl implements UserService {
     UserDao userDao ;
 
     /**
-     *
      * @param user
      * @return
      */
@@ -71,11 +70,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PageBean findAllUser( int pageCount, int curPage,Map<String,String> map) {
-        List<User> users =  userDao.findAllUser(pageCount,curPage,map);
-        long totalCount = userDao.getCounts();
-        PageBean<User> pageBean = new PageBean((int)totalCount);
-        pageBean.setObjects(users);
-        return pageBean;
+    public PageBean<User> find(int pageCount, int curPage, Map<String, String> map) {
+        PageBean<User> users = userDao.find(pageCount, curPage, map);
+        return users;
     }
 }

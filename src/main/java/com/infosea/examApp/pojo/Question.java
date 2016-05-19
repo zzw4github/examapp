@@ -21,11 +21,11 @@ public class Question {
     @Column
     private String content;
     private String stdAnswer;
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    @JoinColumn( name = "questionType_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn( name = "type_id")
 //    //这个设为双向绑定的时候 mappedby不能是 QuestionType
 ////    不知道能不能设为双向
-//    private QuestionType questionType;
+    private Type type;
 
     @OneToOne(cascade= CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "option_id")
@@ -50,13 +50,13 @@ public class Question {
         this.content = content;
     }
 
-//        public QuestionType getQuestionType() {
-//        return questionType;
-//    }
-//
-//    public void setQuestionType(QuestionType questionType) {
-//        this.questionType = questionType;
-//    }
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
 
     public String getDesc() {
         return desc;

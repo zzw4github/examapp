@@ -2,10 +2,7 @@ package com.infosea.examApp.pojo;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by infosea on 2016/4/25.
@@ -13,19 +10,27 @@ import javax.persistence.Id;
 @Entity
 public class TestPaper {
     @Id
-    @GenericGenerator(name = "increment" ,strategy = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     @GeneratedValue(generator = "increment")
     private long id;
     @Column
     private String name;
 
     @Column
-    private String sglc_ids;
-    @Column
-    private  String mulc_ids;
+    private String questions_id;
 
-    @Column
-    private String tof_ids;
+    @OneToOne
+    TestPaperDefine testPaperDefine;
+
+    @OneToOne(mappedBy = "testPaper")
+    Exam exam;
+
+    @ManyToOne
+    private  User user;
+            ;
+    public TestPaper() {
+    }
+
     public long getId() {
         return id;
     }
@@ -42,27 +47,35 @@ public class TestPaper {
         this.name = name;
     }
 
-    public String getSglc_ids() {
-        return sglc_ids;
+    public String getQuestions_id() {
+        return questions_id;
     }
 
-    public void setSglc_ids(String sglc_ids) {
-        this.sglc_ids = sglc_ids;
+    public void setQuestions_id(String questions_id) {
+        this.questions_id = questions_id;
     }
 
-    public String getMulc_ids() {
-        return mulc_ids;
+    public TestPaperDefine getTestPaperDefine() {
+        return testPaperDefine;
     }
 
-    public void setMulc_ids(String mulc_ids) {
-        this.mulc_ids = mulc_ids;
+    public void setTestPaperDefine(TestPaperDefine testPaperDefine) {
+        this.testPaperDefine = testPaperDefine;
     }
 
-    public String getTof_ids() {
-        return tof_ids;
+    public Exam getExam() {
+        return exam;
     }
 
-    public void setTof_ids(String tof_ids) {
-        this.tof_ids = tof_ids;
+    public void setExam(Exam exam) {
+        this.exam = exam;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

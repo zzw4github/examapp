@@ -17,19 +17,19 @@ public class QuestionType {
     @GeneratedValue(generator = "increment")
     private long id;
 
-    @Column(name="intro")
-    private String desc;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn( name = "type_id")
+    private Type type;
 
     @Column
     private int score;
     @Column
     private int amount;
 
-//    @ManyToOne
-//    private TestPaperDefine testPaperDefine;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<Question> questions = new ArrayList<>();
+
+//    @OneToMany(fetch = FetchType.EAGER)
+//    private List<Question> questions = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -38,12 +38,13 @@ public class QuestionType {
     public void setId(long id) {
         this.id = id;
     }
-    public String getDesc() {
-        return desc;
+
+    public Type getType() {
+        return type;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setType(Type type) {
+        this.type = type;
     }
 
 
@@ -63,13 +64,13 @@ public class QuestionType {
         this.amount = amount;
     }
 
-    public List<Question> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
-    }
+//    public List<Question> getQuestions() {
+//        return questions;
+//    }
+//
+//    public void setQuestions(List<Question> questions) {
+//        this.questions = questions;
+//    }
 
 //    public TestPaperDefine getTestPaperDefine() {
 //        return testPaperDefine;

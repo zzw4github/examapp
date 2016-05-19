@@ -25,11 +25,13 @@ public interface UserDao {
 
     User findUser(User user);
 
-    List<User> findAllUser(int pageCount, int curPage, Map<String, String> map);
-
     User findUserByTmh(String tmh);
 
     void delUser(User user);
 
     long getCounts();
+
+    List<User> findUser(int pageCount, int curPage, Map<String, String> map);
+
+    PageBean<User> find(int pageCount, int curPage, Map<String, String> map);
 }

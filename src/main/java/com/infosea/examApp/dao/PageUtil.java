@@ -24,7 +24,7 @@ public class PageUtil<T> {
         this.sessionFactory = sessionFactory;
     }
 
-
+@Transactional
     public List<T> findPageByQuery( int pageSize,int pageNo, String hql, Map<String,String> map) {
         List<T> result = null;
         try {

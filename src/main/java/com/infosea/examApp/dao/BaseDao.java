@@ -2,6 +2,7 @@ package com.infosea.examApp.dao;
 
 import com.infosea.examApp.util.PageResults;
 import com.infosea.examApp.util.RowMapper;
+import com.infosea.examApp.vo.PageBean;
 
 import java.io.Serializable;
 import java.util.Collection;

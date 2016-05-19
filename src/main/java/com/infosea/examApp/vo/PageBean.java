@@ -22,6 +22,9 @@ public class PageBean<T> {
         this.objects = objects;
     }
 
+    public PageBean() {
+    }
+
     public PageBean(int rows){
 
         this.setRowsCount(rows);

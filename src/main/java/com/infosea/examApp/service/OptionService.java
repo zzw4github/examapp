@@ -10,6 +10,8 @@ import java.util.List;
  */
 public interface OptionService {
     Option find(long id);
+
     long save(Option option);
+
     List<Option> findAll();
 }

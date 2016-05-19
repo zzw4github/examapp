@@ -35,10 +35,13 @@ public class Exam {
     private String desc;
 
     @Column
-    private char validFlag;
+    private String validFlag;
+
+
 
     @OneToOne
-    private TestPaperDefine testPaperDefine;
+    @JoinColumn(name = "testPaper_id")
+    private TestPaper testPaper;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "begin_time")
@@ -83,11 +86,12 @@ public class Exam {
         this.desc = desc;
     }
 
-    public char getValidFlag() {
+
+    public String getValidFlag() {
         return validFlag;
     }
 
-    public void setValidFlag(char validFlag) {
+    public void setValidFlag(String validFlag) {
         this.validFlag = validFlag;
     }
 
@@ -99,12 +103,12 @@ public class Exam {
         this.answer = answer;
     }
 
-    public TestPaperDefine getTestPaperDefine() {
-        return testPaperDefine;
+    public TestPaper getTestPaper() {
+        return testPaper;
     }
 
-    public void setTestPaperDefine(TestPaperDefine testPaperDefine) {
-        this.testPaperDefine = testPaperDefine;
+    public void setTestPaper(TestPaper testPaper) {
+        this.testPaper = testPaper;
     }
 
     public long getScore() {

@@ -35,6 +35,7 @@ public class QuestionTypeDaoImpl implements QuestionTypeDao {
      * 删除试题类型
      * @param questionType
      */
+    @Transactional
     @Override
     public void delete(QuestionType questionType) {
         this.sessionFactory.getCurrentSession().delete(questionType);
@@ -44,6 +45,7 @@ public class QuestionTypeDaoImpl implements QuestionTypeDao {
      * 修改试题类型
      * @param questionType
      */
+    @Transactional
     @Override
     public void update(QuestionType questionType) {
         this.sessionFactory.getCurrentSession().update(questionType);

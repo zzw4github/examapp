@@ -5,8 +5,10 @@ import com.infosea.examApp.dao.QuestionTypeDao;
 import com.infosea.examApp.pojo.Option;
 import com.infosea.examApp.pojo.Question;
 import com.infosea.examApp.pojo.QuestionType;
+import com.infosea.examApp.pojo.User;
 import com.infosea.examApp.util.POI;
 import com.infosea.examApp.util.RegularEx;
+import com.infosea.examApp.vo.PageBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.Rollback;
@@ -57,6 +59,17 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
+    public PageBean<Question> find(int pageCount, int curPage, String qids) {
+        String hql = "select q from Question q left join fetch q.type left join fetch q.option where q.id in (" + qids + ") order by q.id asc";
+        PageBean<Question> questionPageBean =  questionDao.find(pageCount,curPage,hql);
+        return questionPageBean;
+    }
+    @Override
+    public PageBean<Question> find(int pageCount, int curPage, Map<String,String> map) {
+        PageBean<Question> questionPageBean =  questionDao.find(pageCount,curPage,map);
+        return questionPageBean;
+    }
+    @Override
 //    new File("湖南人文科技学院图书馆新生入馆教育考试题库.doc")
 
     @Rollback(true)
@@ -80,7 +93,6 @@ public class QuestionServiceImpl implements QuestionService{
                 Question question = new Question();
                 Map<String, String> map = regularEx.getQuestionFromUniformStringByRegex(str);
                 if (map.size() == 0) {
-//                    System.out.println("------" + str);
                     continue;
                 } else {
                     QuestionType questionType = null;
@@ -96,7 +108,6 @@ public class QuestionServiceImpl implements QuestionService{
                     question.setContent(map.get("question"));
                     question.setDesc("desc");
                     question.setDate(new Date());
-//                    question.setQuestionType(questionType);
                     option.setValue(map.get("option"));
                     question.setOption(option);
 //                    questionDao.save(question);

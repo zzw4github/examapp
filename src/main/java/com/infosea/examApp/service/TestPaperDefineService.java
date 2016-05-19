@@ -16,8 +16,6 @@ public interface TestPaperDefineService {
 
     Serializable save(TestPaperDefine testPaperDefine);
 
-    TestPaperDefine findByIdAndUserId(long eid, long uid);
-
     void del(TestPaperDefine testPaperDefine);
 
     void update(TestPaperDefine testPaperDefine);

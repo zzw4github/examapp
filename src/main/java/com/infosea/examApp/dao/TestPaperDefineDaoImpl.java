@@ -25,6 +25,7 @@ public class TestPaperDefineDaoImpl implements TestPaperDefineDao {
      * @param id
      * @return
      */
+    @Transactional
     @Override
     public TestPaperDefine findById(long id) {
         return this.sessionFactory.getCurrentSession().get(TestPaperDefine.class,id);
@@ -50,17 +51,7 @@ public class TestPaperDefineDaoImpl implements TestPaperDefineDao {
         return this.sessionFactory.getCurrentSession().save(testPaperDefine);
     }
 
-    /**
-     * 根据考试id 用户id查询试卷
-     * @param eid
-     * @param uid
-     * @return
-     */
-    @Override
-    public TestPaperDefine findByIdAndUserId(long eid, long uid) {
-//        return this.sessionFactory.getCurrentSession().createQuery("select tp from TestPaperDefin tp ").setParameter("eid",eid).setParameter("uid",uid).uniqueResult();
-        return null;
-    }
+
 
     /**
      * 删除试卷

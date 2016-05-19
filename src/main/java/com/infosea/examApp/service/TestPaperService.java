@@ -9,10 +9,10 @@ import java.util.List;
  * Created by infosea on 2016/4/25.
  */
 public interface TestPaperService {
-    TestPaper findTestPaperById(long id);
-    List<TestPaper> findAllTestPaper();
+    TestPaper findById(long id);
+    List<TestPaper> findAll();
     Serializable save(TestPaper testPaper);
-    TestPaper findTestPaperByTestPaperIdandUserId(long eid, long uid);
+    TestPaper findByIdAndUid(long eid, long uid);
     void del(TestPaper testPaper);
     void update(TestPaper testPaper);
 }

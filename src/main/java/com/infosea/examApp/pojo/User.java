@@ -44,8 +44,8 @@ public class User {
     @Column
     private String situation;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    List<TestPaperDefine> testPaperDefines = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
+    List<TestPaper> testPaper = new ArrayList<>();
 
     public User() {
     }
@@ -140,12 +140,11 @@ public class User {
     }
 
 
-    public List<TestPaperDefine> getTestPaperDefines() {
-        return testPaperDefines;
+    public List<TestPaper> getTestPaper() {
+        return testPaper;
     }
 
-    public void setTestPaperDefines(List<TestPaperDefine> testPaperDefines) {
-        this.testPaperDefines = testPaperDefines;
+    public void setTestPaper(List<TestPaper> testPaper) {
+        this.testPaper = testPaper;
     }
-
 }

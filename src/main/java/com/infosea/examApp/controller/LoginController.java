@@ -116,7 +116,7 @@ public class LoginController {
         } if(Strings.isNullOrEmpty(pageNum)){
             pageNum="1";
         }
-       PageBean<User> pageBean = userService.findAllUser(Integer.parseInt(pageCount),Integer.parseInt(pageNum),map);
+       PageBean<User> pageBean = userService.find(Integer.parseInt(pageCount),Integer.parseInt(pageNum),map);
         return pageBean;
     }
 

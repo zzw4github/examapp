@@ -29,5 +29,5 @@ public interface UserService {
 
     boolean deleteUser(String tmh);
 
-    PageBean findAllUser( int pageCount, int curPage,Map<String,String> map);
+    PageBean<User> find( int pageCount, int curPage,Map<String,String> map);
 }

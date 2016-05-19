@@ -19,6 +19,7 @@ import java.util.List;
 
 import com.infosea.examApp.util.PageResults;
 import com.infosea.examApp.util.RowMapper;
+import com.infosea.examApp.vo.PageBean;
 import org.hibernate.Query;
 import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
@@ -372,7 +373,7 @@ public class BaseDaoImpl<T, ID extends Serializable> implements BaseDao<T, ID> {
      */
     @Override
     public PageResults<T> findPageByFetchedHql(String hql, String countHql,
-                                               int pageNo, int pageSize, Object... values) {
+                                            int pageNo, int pageSize, Object... values) {
         PageResults<T> retValue = new PageResults<T>();
         Query query = this.getSession().createQuery(hql);
         if(values != null){

@@ -15,8 +15,6 @@ public interface TestPaperDefineDao {
 
     Serializable save(TestPaperDefine testPaper);
 
-    TestPaperDefine findByIdAndUserId(long eid, long uid);
-
     void del(TestPaperDefine testPaper);
 
     void update(TestPaperDefine testPaper);

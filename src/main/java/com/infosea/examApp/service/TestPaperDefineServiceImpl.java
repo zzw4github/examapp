@@ -30,10 +30,6 @@ public class TestPaperDefineServiceImpl implements TestPaperDefineService {
         return testPaperDefineDao.save(testPaperDefine);
     }
 
-    @Override
-    public TestPaperDefine findByIdAndUserId(long eid, long uid) {
-        return testPaperDefineDao.findByIdAndUserId(eid,uid);
-    }
 
     @Override
     public void del(TestPaperDefine testPaperDefine) {

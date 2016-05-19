@@ -21,24 +21,24 @@ public class TestPaperDaoImpl implements  TestPaperDao {
     }
     @Override
     @Transactional
-    public TestPaper findTestPaperById(long id) {
+    public TestPaper findById(long id) {
         return this.sessionFactory.getCurrentSession().get(TestPaper.class,id);
     }
 
     @Override
 
-    public List<TestPaper> findAllTestPaper() {
+    public List<TestPaper> findAll() {
         return this.sessionFactory.getCurrentSession().createQuery("from com.infosea.examApp.pojo.TestPaper paper").list();
     }
 
     @Override
-
+    @Transactional
     public Serializable save(TestPaper testPaper) {
         return this.sessionFactory.getCurrentSession().save(testPaper);
     }
 
     @Override
-    public TestPaper findTestPaperByTestPaperIdandUserId(long pid, long uid) {
+    public TestPaper findByIdAndUid(long pid, long uid) {
         return (TestPaper) this.sessionFactory.getCurrentSession().createQuery("select e from com.infosea.examApp.pojo. TestPaper p  left join fetch p.user where p.id=:eid and p.user.id=:uid").setParameter("id",pid).setParameter("uid",uid).uniqueResult();
     }
 

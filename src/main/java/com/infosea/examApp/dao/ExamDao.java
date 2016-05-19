@@ -1,10 +1,12 @@
 package com.infosea.examApp.dao;
 
 import com.infosea.examApp.pojo.Exam;
+import com.infosea.examApp.vo.PageBean;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by infosea on 2016/4/20.
@@ -34,8 +36,10 @@ public interface ExamDao {
 
     void update(Exam exam);
 
+    PageBean<Exam> find(int pageNo , int pageSize,Map<String,String> map);
 
+    long getCounts();
 
-
+    List<Exam> findExam( int pageSize, int curPage,Map<String,String> map);
 
 }

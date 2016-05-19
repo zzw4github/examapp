@@ -85,7 +85,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> findAllUser( int pageSize, int curPage,Map<String,String> map) {
+    public List<User> findUser( int pageSize, int curPage,Map<String,String> map) {
         StringBuffer sb  =new StringBuffer("select user from User user where");
         Iterator it = map.keySet().iterator();
         while (it.hasNext()) {
@@ -102,6 +102,15 @@ public class UserDaoImpl implements UserDao {
     @Override
     public long getCounts() {
         return (long)this.sessionFactory.getCurrentSession().createSQLQuery("selct count(id) from user ").uniqueResult();
+    }
+
+    @Override
+    public PageBean<User> find( int pageCount, int curPage,Map<String,String> map) {
+        List<User> users =  findUser(pageCount,curPage,map);
+        long totalCount = getCounts();
+        PageBean<User> pageBean = new PageBean((int)totalCount);
+        pageBean.setObjects(users);
+        return pageBean;
     }
 }
 
