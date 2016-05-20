@@ -17,4 +17,6 @@ public interface TestPaperDao {
     void del(TestPaper testPaper);
     void update(TestPaper testPaper);
     void flush();
+
+    
 }

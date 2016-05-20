@@ -37,6 +37,11 @@ public class TestPaperDefineServiceImpl implements TestPaperDefineService {
     }
 
     @Override
+    public void del(long id) {
+        testPaperDefineDao.del(id);
+    }
+
+    @Override
     public void update(TestPaperDefine testPaperDefine) {
         testPaperDefineDao.update(testPaperDefine);
     }

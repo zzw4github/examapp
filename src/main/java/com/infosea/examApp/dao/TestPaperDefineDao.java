@@ -17,7 +17,10 @@ public interface TestPaperDefineDao {
 
     void del(TestPaperDefine testPaper);
 
+    void del(long id);
+
     void update(TestPaperDefine testPaper);
+
 
     void flush();
 }

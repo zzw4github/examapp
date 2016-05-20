@@ -38,22 +38,31 @@ CREATE TABLE IF NOT EXISTS `exam` (
   `id` int(11) NOT NULL,
   `examdate` date,
   `validFlag` varchar(50) NOT NULL DEFAULT 'Y',
-  `testpaper_id` int(11),
-  `examscore` int(10) NOT NULL DEFAULT '0',
   `examdesc` varchar(500),
-  `user_id` int(11) NOT NULL,
   `time` int(11) DEFAULT '0',
-  `begin_time` date,
-  `end_time` date,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- 正在导出表  examapp.exam 的数据：~1 rows (大约)
+-- 正在导出表  examapp.exam 的数据：~5 rows (大约)
 /*!40000 ALTER TABLE `exam` DISABLE KEYS */;
-INSERT INTO `exam` (`id`, `examdate`, `validFlag`, `testpaper_id`, `examscore`, `examdesc`, `user_id`, `time`, `begin_time`, `end_time`) VALUES
-	(1, '2016-05-19', 'Y', 1, 100, NULL, 2, 0, NULL, NULL),
-	(2, '2016-05-19', 'YES', NULL, 0, NULL, 2, 0, NULL, NULL);
+INSERT INTO `exam` (`id`, `examdate`, `validFlag`, `examdesc`, `time`) VALUES
+	(1, '2016-05-19', 'Y', NULL, 0),
+	(2, '2016-05-19', 'YES', NULL, 0),
+	(3, '2016-05-20', 'YYY', NULL, 0),
+	(4, '2016-05-20', 'XXX', NULL, 0),
+	(5, '2016-05-20', 'QQQ', NULL, 0);
 /*!40000 ALTER TABLE `exam` ENABLE KEYS */;
+
+
+-- 导出  表 examapp.examdefine 结构
+CREATE TABLE IF NOT EXISTS `examdefine` (
+  `id` int(11) DEFAULT NULL,
+  `exam_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 正在导出表  examapp.examdefine 的数据：~0 rows (大约)
+/*!40000 ALTER TABLE `examdefine` DISABLE KEYS */;
+/*!40000 ALTER TABLE `examdefine` ENABLE KEYS */;
 
 
 -- 导出  表 examapp.option 结构
@@ -660,19 +669,88 @@ INSERT INTO `questiontype` (`id`, `type_id`, `score`, `amount`) VALUES
 /*!40000 ALTER TABLE `questiontype` ENABLE KEYS */;
 
 
+-- 导出  表 examapp.subject 结构
+CREATE TABLE IF NOT EXISTS `subject` (
+  `id` int(11) DEFAULT NULL,
+  `score` int(11) DEFAULT NULL,
+  `question_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 正在导出表  examapp.subject 的数据：~50 rows (大约)
+/*!40000 ALTER TABLE `subject` DISABLE KEYS */;
+INSERT INTO `subject` (`id`, `score`, `question_id`) VALUES
+	(1, 2, 15),
+	(2, 2, 11),
+	(3, 2, 18),
+	(4, 2, 16),
+	(5, 2, 24),
+	(6, 2, 21),
+	(7, 2, 30),
+	(8, 2, 27),
+	(9, 2, 33),
+	(10, 2, 34),
+	(11, 2, 39),
+	(12, 2, 37),
+	(13, 2, 42),
+	(14, 2, 44),
+	(15, 2, 49),
+	(16, 2, 48),
+	(17, 2, 55),
+	(18, 2, 54),
+	(19, 2, 60),
+	(20, 2, 58),
+	(21, 2, 63),
+	(22, 2, 64),
+	(23, 2, 69),
+	(24, 2, 68),
+	(25, 2, 71),
+	(26, 2, 74),
+	(27, 2, 73),
+	(28, 2, 72),
+	(29, 2, 79),
+	(30, 2, 77),
+	(31, 1, 81),
+	(32, 1, 85),
+	(33, 1, 82),
+	(34, 1, 84),
+	(35, 1, 90),
+	(36, 1, 93),
+	(37, 1, 97),
+	(38, 1, 101),
+	(39, 1, 110),
+	(40, 1, 111),
+	(41, 3, 117),
+	(42, 3, 118),
+	(43, 3, 116),
+	(44, 3, 120),
+	(45, 3, 122),
+	(46, 3, 127),
+	(47, 3, 131),
+	(48, 3, 137),
+	(49, 3, 145),
+	(50, 3, 147);
+/*!40000 ALTER TABLE `subject` ENABLE KEYS */;
+
+
 -- 导出  表 examapp.testpaper 结构
 CREATE TABLE IF NOT EXISTS `testpaper` (
   `id` int(11) NOT NULL,
-  `questions_id` varchar(1000) NOT NULL,
   `name` varchar(500) NOT NULL,
   `testPaperDefine_id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL
+  `user_id` int(11) DEFAULT NULL,
+  `score` int(11) DEFAULT NULL,
+  `begin_time` date DEFAULT NULL,
+  `end_time` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- 正在导出表  examapp.testpaper 的数据：~1 rows (大约)
+-- 正在导出表  examapp.testpaper 的数据：~5 rows (大约)
 /*!40000 ALTER TABLE `testpaper` DISABLE KEYS */;
-INSERT INTO `testpaper` (`id`, `questions_id`, `name`, `testPaperDefine_id`, `user_id`) VALUES
-	(1, '11,15,19,18,23,22,30,26,35,34,39,37,45,44,50,49,52,51,58,60,63,65,66,68,75,73,74,71,77,79,85,90,94,99,104,106,109,108,107,111,120,122,130,134,140,142,145,143,141,146,', '测试测卷', 1, 2);
+INSERT INTO `testpaper` (`id`, `name`, `testPaperDefine_id`, `user_id`, `score`, `begin_time`, `end_time`) VALUES
+	(1, '测试测卷', 1, 2, NULL, NULL, NULL),
+	(2, '测试测卷', 1, 2, NULL, NULL, NULL),
+	(3, '测试测卷', 1, 2, NULL, NULL, NULL),
+	(4, '测试测卷', 1, 2, NULL, NULL, NULL),
+	(5, '测试测卷', 1, 2, NULL, NULL, NULL);
 /*!40000 ALTER TABLE `testpaper` ENABLE KEYS */;
 
 
@@ -10698,13 +10776,14 @@ INSERT INTO `testpaper1` (`id`, `name`, `sglc_ids`, `mulc_ids`, `tof_ids`) VALUE
 CREATE TABLE IF NOT EXISTS `testpaperdefine` (
   `id` int(11) NOT NULL COMMENT '试卷定义id',
   `tpd_name` varchar(100) NOT NULL,
+  `define_date` date NOT NULL,
   `valid` varchar(3) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='定义试卷的组成部分，现在分为单选题，多选题 ，判断题。';
 
 -- 正在导出表  examapp.testpaperdefine 的数据：~1 rows (大约)
 /*!40000 ALTER TABLE `testpaperdefine` DISABLE KEYS */;
-INSERT INTO `testpaperdefine` (`id`, `tpd_name`, `valid`) VALUES
-	(1, '试卷一（包含选择题判断题多选题）', 'YES');
+INSERT INTO `testpaperdefine` (`id`, `tpd_name`, `define_date`, `valid`) VALUES
+	(1, '试卷一（包含选择题判断题多选题）', '0000-00-00', 'YES');
 /*!40000 ALTER TABLE `testpaperdefine` ENABLE KEYS */;
 
 
@@ -10721,6 +10800,68 @@ INSERT INTO `testpaperdefine_questiontype` (`testpaperdefine_id`, `questionTypes
 	(1, 2),
 	(1, 3);
 /*!40000 ALTER TABLE `testpaperdefine_questiontype` ENABLE KEYS */;
+
+
+-- 导出  表 examapp.testpaper_subject 结构
+CREATE TABLE IF NOT EXISTS `testpaper_subject` (
+  `testpaper_id` int(11) DEFAULT NULL,
+  `subjects_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 正在导出表  examapp.testpaper_subject 的数据：~50 rows (大约)
+/*!40000 ALTER TABLE `testpaper_subject` DISABLE KEYS */;
+INSERT INTO `testpaper_subject` (`testpaper_id`, `subjects_id`) VALUES
+	(5, 1),
+	(5, 2),
+	(5, 3),
+	(5, 4),
+	(5, 5),
+	(5, 6),
+	(5, 7),
+	(5, 8),
+	(5, 9),
+	(5, 10),
+	(5, 11),
+	(5, 12),
+	(5, 13),
+	(5, 14),
+	(5, 15),
+	(5, 16),
+	(5, 17),
+	(5, 18),
+	(5, 19),
+	(5, 20),
+	(5, 21),
+	(5, 22),
+	(5, 23),
+	(5, 24),
+	(5, 25),
+	(5, 26),
+	(5, 27),
+	(5, 28),
+	(5, 29),
+	(5, 30),
+	(5, 31),
+	(5, 32),
+	(5, 33),
+	(5, 34),
+	(5, 35),
+	(5, 36),
+	(5, 37),
+	(5, 38),
+	(5, 39),
+	(5, 40),
+	(5, 41),
+	(5, 42),
+	(5, 43),
+	(5, 44),
+	(5, 45),
+	(5, 46),
+	(5, 47),
+	(5, 48),
+	(5, 49),
+	(5, 50);
+/*!40000 ALTER TABLE `testpaper_subject` ENABLE KEYS */;
 
 
 -- 导出  表 examapp.type 结构

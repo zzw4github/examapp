@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by infosea on 2016/4/19.
@@ -31,7 +32,7 @@ public interface UserDao {
 
     long getCounts();
 
-    List<User> findUser(int pageCount, int curPage, Map<String, String> map);
+    List<User> findUser(int pageCount, int curPage, Map<Object, Object> map);
 
-    PageBean<User> find(int pageCount, int curPage, Map<String, String> map);
+    PageBean<User> find(int pageCount, int curPage, Map<Object, Object> map);
 }

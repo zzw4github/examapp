@@ -122,7 +122,7 @@ public class ExamDaoImpl implements ExamDao {
     }
 
     @Override
-    public PageBean<Exam> find(int pageCount, int curPage, Map<String,String> map) {
+    public PageBean<Exam> find(int pageCount, int curPage, Map<Object,Object> map) {
         List<Exam> exams =  findExam(pageCount,curPage,map);
         long totalCount = getCounts();
         PageBean<Exam> pageBean = new PageBean((int)totalCount);
@@ -130,7 +130,7 @@ public class ExamDaoImpl implements ExamDao {
         return pageBean;
     }
     @Override
-    public List<Exam> findExam( int pageSize, int curPage,Map<String,String> map) {
+    public List<Exam> findExam( int pageSize, int curPage,Map<Object,Object> map) {
         StringBuffer sb  =new StringBuffer("select exam from Exam exam where ");
         Iterator it = map.keySet().iterator();
         while (it.hasNext()) {

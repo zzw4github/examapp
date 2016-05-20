@@ -62,6 +62,12 @@ public class TestPaperDefineDaoImpl implements TestPaperDefineDao {
 
     }
 
+    @Override
+    public void del(long id) {
+        TestPaperDefine testPaperDefine = findById(id);
+        this.sessionFactory.getCurrentSession().delete(testPaperDefine);
+    }
+
     /**
      * 更新试卷
      * @param testPaperDefine

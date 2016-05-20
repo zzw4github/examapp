@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,8 +21,11 @@ public class TestPaperDefine {
 
     @Column
     private  String valid;
-//    @ManyToMany(mappedBy ="id" )
-//    List<User> users = new ArrayList<>();
+
+    @Temporal(TemporalType.DATE)
+    @Column(nullable = false, length = 10, name = "define_date")
+    private Date defineDate;
+
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<QuestionType> questionTypes = new ArrayList<>();
 
@@ -30,9 +34,13 @@ public class TestPaperDefine {
     }
 
 
-
     public TestPaperDefine(String name) {
         this.name = name;
+    }
+
+    public TestPaperDefine(String name, Date defineDate) {
+       this(name);
+        this.defineDate = defineDate;
     }
 
     public long getId() {
@@ -65,6 +73,14 @@ public class TestPaperDefine {
 
     public void setValid(String valid) {
         this.valid = valid;
+    }
+
+    public Date getDefineDate() {
+        return defineDate;
+    }
+
+    public void setDefineDate(Date defineDate) {
+        this.defineDate = defineDate;
     }
 
     //    public List<User> getUsers() {

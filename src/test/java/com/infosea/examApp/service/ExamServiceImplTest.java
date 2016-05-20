@@ -33,8 +33,6 @@ public class ExamServiceImplTest {
         User user = userDao.find(2L);
         long testPaperDefineId=1L;
        Exam exam = examService.produceExam(user,testPaperDefineId);
-
-
     }
 
 }

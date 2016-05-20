@@ -25,6 +25,10 @@ public class PageBean<T> {
     public PageBean() {
     }
 
+    /**
+     * 设置 总行数  总页数
+     * @param rows
+     */
     public PageBean(int rows){
 
         this.setRowsCount(rows);
@@ -39,6 +43,11 @@ public class PageBean<T> {
         }
     }
 
+    public PageBean(List<T> objects){
+        this(objects.size());
+        this.objects = objects;
+
+    }
 
     public int getCurPage() {
         return curPage;

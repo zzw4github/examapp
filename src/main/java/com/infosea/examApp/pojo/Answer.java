@@ -22,7 +22,7 @@ public class Answer {
     private User user;
 
     @ManyToOne()
-    private Exam exam;
+    private TestPaper testPaper;
 
     public long getId() {
         return id;
@@ -56,11 +56,12 @@ public class Answer {
         this.user = user;
     }
 
-    public Exam getExam() {
-        return exam;
+    public TestPaper getTestPaper() {
+        return testPaper;
     }
 
-    public void setExam(Exam exam) {
-        this.exam = exam;
+    public void setTestPaper(TestPaper testPaper) {
+        this.testPaper = testPaper;
     }
+
 }

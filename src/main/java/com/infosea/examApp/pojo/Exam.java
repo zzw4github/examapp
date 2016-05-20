@@ -18,8 +18,8 @@ public class Exam {
     @GeneratedValue(generator = "increment")
     private long id;
 
-    @OneToOne
-    private User user;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List< User> users;
 
     @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Answer> answer = new ArrayList<>();
@@ -39,20 +39,11 @@ public class Exam {
 
 
 
-    @OneToOne
-    @JoinColumn(name = "testPaper_id")
-    private TestPaper testPaper;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TestPaper> testPapers;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "begin_time")
-    private Date beginTime;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "end_time")
-    private Date endTime;
 
-    @Column(name = "examscore")
-    private long score;
 
     public Exam() {
     }
@@ -62,13 +53,6 @@ public class Exam {
         return id;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public Date getDate() {
         return date;
@@ -103,21 +87,6 @@ public class Exam {
         this.answer = answer;
     }
 
-    public TestPaper getTestPaper() {
-        return testPaper;
-    }
-
-    public void setTestPaper(TestPaper testPaper) {
-        this.testPaper = testPaper;
-    }
-
-    public long getScore() {
-        return score;
-    }
-
-    public void setScore(long score) {
-        this.score = score;
-    }
 
     public int getTime() {
         return time;
@@ -127,13 +96,6 @@ public class Exam {
         this.time = time;
     }
 
-    public Date getBeginTime() {
-        return beginTime;
-    }
-
-    public void setBeginTime(Date beginTime) {
-        this.beginTime = beginTime;
-    }
 
     public List<Answer> getAnswer() {
         return answer;
@@ -143,11 +105,21 @@ public class Exam {
         this.answer = answer;
     }
 
-    public Date getEndTime() {
-        return endTime;
+
+
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public List<TestPaper> getTestPapers() {
+        return testPapers;
+    }
+
+    public void setTestPapers(List<TestPaper> testPapers) {
+        this.testPapers = testPapers;
     }
 }

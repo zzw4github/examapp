@@ -6,6 +6,7 @@ import com.infosea.examApp.service.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -62,6 +63,8 @@ public class ExamController {
      */
     @RequestMapping(value = "/upd" ,method = RequestMethod.GET)
     public void upd(Model model, HttpServletResponse response) {
+        Exam exam = examService.findByID(1L);
+        examService.update(exam);
         List<Exam> exams =examService.findAll();
         model.addAttribute("exams",exams);
         try {
@@ -78,6 +81,7 @@ public class ExamController {
      * @param request
      * @param response
      */
+
     @RequestMapping(value = "/table" ,method = RequestMethod.POST)
     public void table( HttpServletRequest request, HttpServletResponse response) {
         String str = request.getParameter("action");

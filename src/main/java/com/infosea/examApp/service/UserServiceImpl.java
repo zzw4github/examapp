@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PageBean<User> find(int pageCount, int curPage, Map<String, String> map) {
+    public PageBean<User> find(int pageCount, int curPage, Map<Object, Object> map) {
         PageBean<User> users = userDao.find(pageCount, curPage, map);
         return users;
     }

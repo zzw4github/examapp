@@ -7,6 +7,7 @@ import com.infosea.examApp.service.*;
 
 
 import com.infosea.examApp.vo.PageBean;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -42,16 +43,16 @@ public class MainController {
     CommonService commonService;
     @Autowired
     TestPaperService testPaperService;
-
     @Autowired
-   AnswerService answerService;
+    AnswerService answerService;
 
-    Map<String, String> qidMap = new HashMap<>(); //qidMap
     Map<String, String> answerMap = new HashMap<>();//answerMap
 
     /**
      * 读者登录后返回一套试卷
-     * @TODO 点击开始考试后返回一套试卷
+     * 从请求中获取
+     * 试卷定义ID
+     * 考试ID
      * @param user
      * @param request
      * @return
@@ -60,37 +61,42 @@ public class MainController {
     public String main1(@ModelAttribute("user") User user, HttpServletRequest request) {
         user = userService.findUser(user);
         String testPaperDefineId = request.getParameter("testPaperDefineID");
-        if(Strings.isNullOrEmpty(testPaperDefineId)){
+        String examId = request.getParameter("examId");
+
+        if (Strings.isNullOrEmpty(examId)) {
+            examId = "1";
+        }
+        if (Strings.isNullOrEmpty(testPaperDefineId)) {
             testPaperDefineId = "1";
         }
-        Exam exam = examService.produceExam(user,Integer.parseInt(testPaperDefineId));
-        TestPaper testPaper = exam.getTestPaper();
+        Exam exam = examService.findByID(Integer.parseInt(examId));
+        TestPaper testPaper = testPaperService.produceTestPaper(user, Integer.parseInt(testPaperDefineId) ,exam);
         long testPaperId = testPaper.getId();
-        String qids = exam.getTestPaper().getQuestions_id();
-         qids = qids.substring(0, qids.lastIndexOf(","));
-        //返回 试题 第一条数据
+        List<Subject> subjects = testPaper.getSubjects();
 
-       PageBean<Question> pageBean = questionService.find(1,1,qids);
+        //返回 试题 第一条数据
+        PageBean<Subject> pageBean = new PageBean<>(subjects);
+        pageBean.setCurPage(1);
+
         request.getSession().setAttribute("answerMap", answerMap);
-        request.getSession().setAttribute("qidMap", qidMap);
-        request.getSession().setAttribute("exam", exam);
-        request.getSession().setAttribute("testPaperId", testPaperId);
-        request.getSession().setAttribute("qids", qids);
+        request.getSession().setAttribute("testPaper", testPaper);
         request.getSession().setAttribute("pageBean", pageBean);
         return "main";
     }
 
     /**
      * 单个问题提交时，保存到session中，并返回下一个问题
-     * @TODO 将答案保存到数据库
      * @param request
      * @return
+     * @TODO 将答案保存到数据库
      */
     @RequestMapping(value = "/main/single", method = RequestMethod.POST)
     public String page(HttpServletRequest request) {
         String qids = (String) request.getSession().getAttribute("qids");
 //      request.getParameterMap()中将包含你表单里面所有input标签的数据
+//      点提交按钮后提交
         Map map1 = request.getParameterMap();
+
         Set<String> key = map1.keySet();
         String spage = "";
 
@@ -104,8 +110,7 @@ public class MainController {
                 for (int i = 0; i < oidArr.length; i++) {
                     sb.append(oidArr[i]);
                 }
-                qidMap.put(qid, sb.toString());
-                answerMap.put(s, sb.toString());
+                answerMap.put(qid, sb.toString());
             }
             if (s.equals("page")) {
                 String[] ss = (String[]) map1.get(s);
@@ -116,8 +121,8 @@ public class MainController {
                 }
             }
         }
-        request.getSession().setAttribute("qidMap", qidMap);
-        request.getSession().setAttribute("temp2", answerMap);
+//        选择答案后就提交
+        request.getSession().setAttribute("answerMap", answerMap);
         PageBean pageBean = ((PageBean) request.getSession().getAttribute("pageBean"));
         if (spage.equals("")) {
             int curPage = pageBean.getCurPage();
@@ -135,41 +140,42 @@ public class MainController {
     }
 
     /**
-     *  @description 提交试卷
-     * 将答案保存到数据库中
      * @param request
      * @param response
+     * @description 提交试卷 将答案保存到数据库中
      */
     @RequestMapping(value = "/main/flash", method = RequestMethod.GET)
     public void flash(HttpServletRequest request, HttpServletResponse response) {
-        Exam exam = (Exam)request.getSession().getAttribute("exam");
+        TestPaper testPaper = (TestPaper) request.getSession().getAttribute("testPaper");
         User user = (User)request.getSession().getAttribute("user");
+        Map<String, String> answerMap = (Map<String, String>) request.getSession().getAttribute("answerMap");
+        List<Subject> subjects = (List<Subject>) request.getSession().getAttribute("pageBean");
         int totalScore = 0;
-        Map<String, String> map = (Map<String, String>) request.getSession().getAttribute("answerMap");
-        List<Question> questions = questionService.findAll();
-        for (Iterator<Question> item = questions.iterator(); item.hasNext();) {
-            Question question = item.next();
-            String qid = String.valueOf(question.getId());
-            long typeid = question.getType().getId();
 
-            int score = Integer.parseInt(exam.getTestPaper().getTestPaperDefine().getQuestionTypes()getgetScore());
+        for (Iterator<Subject> item = subjects.iterator(); item.hasNext(); ) {
+            Subject subject = item.next();
+            Question question = subject.getQuestion();
+            String qid = String.valueOf(question.getId());
+            int score = subject.getScore();
+
 //          保存答案
-            String answer = question.getStdAnswer();
-            String answer1 = map.get(qid);
+            String stdAnswer = question.getStdAnswer();
+            String usrAnswer = answerMap.get(qid);
             Answer answer2 = new Answer();
             answer2.setQuestion(question);
-            answer2.setAnswer(answer1);
-            answer2.setExam(exam);
+            answer2.setAnswer(usrAnswer);
+            answer2.setTestPaper(testPaper);
             answer2.setUser(user);
             answerService.save(answer2);
-//          保存成绩
-            if (answer.equals(answer1)) {
-                toatalScore += score;
+
+            if (stdAnswer.equals(usrAnswer)) {
+                totalScore += score;
             }
         }
         //保存成绩
-        exam.setScore(totalScore);
-        examService.update(exam);
+        testPaper.setScore(totalScore);
+        testPaperService.update(testPaper);
+
         response.setCharacterEncoding("utf-8");
         try {
             response.getWriter().write("你的成绩是 ：" + totalScore);
@@ -211,18 +217,16 @@ public class MainController {
 
         Question question = new Question();
         question.setDate(new Date());
-//        question.setQuestionType(questionType);
         question.setContent("问题一");
         question.setDesc("问题一");
         question.setOption(option);
         questionService.save(question);
+
         Exam exam = new Exam();
         List<Question> questions = new ArrayList<>();
         questions.add(question);
         exam.setDate(new Date());
         user.setId(1L);
-        User user1 = userService.find(user.getId());
-        exam.setUser(user1);
         examService.save(exam);
         request.setAttribute("exam", exam);
         return "main";

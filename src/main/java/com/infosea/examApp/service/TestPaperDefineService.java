@@ -18,5 +18,7 @@ public interface TestPaperDefineService {
 
     void del(TestPaperDefine testPaperDefine);
 
+    void del(long id);
+
     void update(TestPaperDefine testPaperDefine);
 }

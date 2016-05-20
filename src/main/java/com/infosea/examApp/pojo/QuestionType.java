@@ -26,9 +26,16 @@ public class QuestionType {
     @Column
     private int amount;
 
+    public QuestionType() {
+    }
 
+    public QuestionType(Type type, int score, int amount) {
+        this.type = type;
+        this.score = score;
+        this.amount = amount;
+    }
 
-//    @OneToMany(fetch = FetchType.EAGER)
+    //    @OneToMany(fetch = FetchType.EAGER)
 //    private List<Question> questions = new ArrayList<>();
 
     public long getId() {

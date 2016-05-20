@@ -90,7 +90,7 @@ public class UserDaoImpl implements UserDao {
         Iterator it = map.keySet().iterator();
         while (it.hasNext()) {
             Object key = it.next();
-           sb.append(":").append(key.toString()).append("? and ");
+           sb.append(key.toString()).append("? and ");
         }
         String hql = sb.toString();
         hql = hql.substring(0,hql.length()-4);

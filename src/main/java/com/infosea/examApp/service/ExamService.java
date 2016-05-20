@@ -28,5 +28,4 @@ public interface ExamService {
 
     List<Exam> findALl(String hql);
 
-    Exam produceExam(User user, long testPaperId);
 }
