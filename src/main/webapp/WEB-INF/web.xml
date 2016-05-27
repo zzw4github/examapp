@@ -5,6 +5,7 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/root-context.xml,/WEB-INF/examApp-servlet.xml</param-value>
     </context-param>
+
     <filter>
         <filter-name>springUtf8Encoding</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -21,6 +22,17 @@
         <filter-name>springUtf8Encoding</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    <!--<filter>-->
+
+        <!--<filter-name>hibernateFilter</filter-name>-->
+        <!--<filter-class>-->
+            <!--org.springframework.orm.hibernate5.support.OpenSessionInViewFilter-->
+        <!--</filter-class>-->
+    <!--</filter>-->
+    <!--<filter-mapping>-->
+        <!--<filter-name>hibernateFilter</filter-name>-->
+        <!--<url-pattern>/*</url-pattern>-->
+    <!--</filter-mapping>-->
     <servlet>
         <servlet-name>examApp</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

@@ -74,3 +74,51 @@ data access object数据访问对象
     Generate Test 插件 的 run Configuration 不知道在哪里配
 
     many-to-one  one-to-many 双向关联 如果不设mappedby 两个表都会关联，并生成一个中间表 ，我晕
+
+
+异常处理
+    http://www.iteye.com/topic/72170
+
+数据绑定
+http://blog.csdn.net/z69183787/article/details/41653843
+
+<form action="request/user" method="get" style="border:1px solid red;">
+     <table>
+           <tr><td colspan="2">这个表单演示了对象数据绑定的方法，以及对象中的Set，List，Array数据绑定（三者类似）</td></tr>
+            <tr>
+                <td>用户名：</td>
+                <td><input type="text" name="userName" value="张三"></td>
+            </tr>
+            <tr>
+                <td>用户地址：</td>
+                <td><input type="text" name="address" value="江苏省无锡市新区菱湖大道200号"><br></td>
+            </tr>
+            <tr>
+                <td>手机品牌：</td>
+                <td>
+                    <input type="text" name="phones[0].brand" value="SONY"><br>
+                    <input type="text" name="phones[1].brand" value="MOTO"><br>
+                    <input type="text" name="phones[2].brand" value="LG"><br>
+                 </td>
+             </tr>
+             <tr>
+                 <td>手机品牌2：</td>
+                 <td>
+                     <input type="text" name="phones2[0].brand" value="Apple"><br>
+                     <input type="text" name="phones2[1].brand" value="Samsung"><br>
+                     <input type="text" name="phones2[2].brand" value="HTC"><br>
+                 </td>
+              </tr>
+              <tr>
+                  <td colspan="2" style="text-align: right;">
+                  <input type="submit" value="提交">
+                  </td>
+               </tr>
+       </table>
+</form>
+
+http://hongjiang.info/http-application-x-www-form-urlencoded/
+
+Specifying whether or not to lazily load with Spring Data
+http://stackoverflow.com/questions/28896287/specifying-whether-or-not-to-lazily-load-with-spring-data
+https://spring.io/blog/2014/12/02/latest-jackson-integration-improvements-in-spring

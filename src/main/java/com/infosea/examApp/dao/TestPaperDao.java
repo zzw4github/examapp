@@ -11,12 +11,18 @@ import java.util.List;
  */
 public interface TestPaperDao {
     TestPaper findById(long id);
+
     List<TestPaper> findAll();
+
     Serializable save(TestPaper testPaper);
+
     TestPaper findByIdAndUid(long eid, long uid);
+
     void del(TestPaper testPaper);
+
     void update(TestPaper testPaper);
+
     void flush();
 
-    
+
 }

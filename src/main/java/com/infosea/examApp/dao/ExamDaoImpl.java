@@ -1,8 +1,10 @@
 package com.infosea.examApp.dao;
 
 import com.infosea.examApp.pojo.Exam;
+import com.infosea.examApp.pojo.Question;
 import com.infosea.examApp.pojo.User;
 import com.infosea.examApp.vo.PageBean;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -23,8 +25,6 @@ public class ExamDaoImpl implements ExamDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    @Autowired
-    PageUtil<Exam> pageUtil;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -121,16 +121,9 @@ public class ExamDaoImpl implements ExamDao {
         this.sessionFactory.getCurrentSession().createQuery("delete  com.infosea.examApp.pojo.Exam e where e.id=:id and e.user.id=:uid").setParameter("id",eid).setParameter("uid",uid).executeUpdate();
     }
 
+
     @Override
-    public PageBean<Exam> find(int pageCount, int curPage, Map<Object,Object> map) {
-        List<Exam> exams =  findExam(pageCount,curPage,map);
-        long totalCount = getCounts();
-        PageBean<Exam> pageBean = new PageBean((int)totalCount);
-        pageBean.setObjects(exams);
-        return pageBean;
-    }
-    @Override
-    public List<Exam> findExam( int pageSize, int curPage,Map<Object,Object> map) {
+    public List<Exam> find( int pageSize, int curPage,Map<Object,Object> map) {
         StringBuffer sb  =new StringBuffer("select exam from Exam exam where ");
         Iterator it = map.keySet().iterator();
         while (it.hasNext()) {
@@ -139,7 +132,20 @@ public class ExamDaoImpl implements ExamDao {
         }
         String hql = sb.toString();
         hql = hql.substring(0,hql.length()-4);
-        List<Exam> exams = pageUtil.findPageByQuery(pageSize,curPage,hql,map);
+        List<Exam> exams = null;
+        try {
+            Query query = this.sessionFactory.getCurrentSession().createQuery(hql);
+            it = map.keySet().iterator();
+            while (it.hasNext()) {
+                Object key = it.next();
+                query.setParameter(key.toString(), map.get(key));
+            }
+            query.setFirstResult((curPage - 1) * pageSize);
+            query.setMaxResults(pageSize);
+            exams = query.list();
+        } catch (RuntimeException re) {
+            throw re;
+        }
 
         return exams;
     }

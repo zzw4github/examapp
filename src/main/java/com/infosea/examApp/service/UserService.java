@@ -29,5 +29,11 @@ public interface UserService {
 
     boolean deleteUser(String tmh);
 
-    PageBean<User> find( int pageCount, int curPage,Map<Object,Object> map);
+    boolean deleteById(Long id);
+    List<User> findList( int pageCount, int curPage,Map<String,Object> map);
+
+    long getCount(Map<String,Object> params);
+
+    PageBean<User> findPageBean(int pageNo, int pageSize ,Map<String,Object> params);
+
 }

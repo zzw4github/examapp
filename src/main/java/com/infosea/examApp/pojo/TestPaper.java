@@ -20,30 +20,45 @@ public class TestPaper {
     private String name;
 
     @OneToOne
+    @JoinColumn(name = "define_id",
+            foreignKey = @ForeignKey(name = "DEFINE_ID_FK")
+    )
     TestPaperDefine testPaperDefine;
 
-    @OneToOne(mappedBy = "testPaper")
-    Exam exam;
+    @ManyToOne
+    @JoinColumn(name= "exam_id",
+            foreignKey = @ForeignKey(name = "EXAM_ID_FK")
+    )
+    private Exam exam;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true)
     List<Subject> subjects = new ArrayList<>();
 
     @ManyToOne
+    @JoinColumn(name= "user_id",
+                    foreignKey = @ForeignKey(name = "USER_ID_FK")
+    )
     private  User user;
 
     @Column
-    private int score;
+    private Integer score;
 
-    public TestPaper() {
-    }
-
-    @Temporal(TemporalType.DATE)
+@Column(name="cost_time")
+    Long costTime;
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "begin_time")
     private Date beginTime;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "end_time")
     private Date endTime;
+
+    public TestPaper() {
+    }
+    public TestPaper(String name) {
+        this.name = name;
+    }
+
     public long getId() {
         return id;
     }
@@ -93,11 +108,11 @@ public class TestPaper {
         this.subjects = subjects;
     }
 
-    public int getScore() {
+    public Integer getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(Integer score) {
         this.score = score;
     }
 
@@ -115,5 +130,13 @@ public class TestPaper {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public Long getCostTime() {
+        return costTime;
+    }
+
+    public void setCostTime(Long costTime) {
+        this.costTime = costTime;
     }
 }

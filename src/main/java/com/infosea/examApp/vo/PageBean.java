@@ -12,15 +12,7 @@ public class PageBean<T> {
     private int rowsCount;           //总行数
     private int pageSize=1;         //每页多少行
 
-    private List<T> objects = new ArrayList<>();
-
-    public List<T> getObjects() {
-        return objects;
-    }
-
-    public void setObjects(List<T> objects) {
-        this.objects = objects;
-    }
+    private  List<T> objects = new ArrayList<>();
 
     public PageBean() {
     }
@@ -43,10 +35,18 @@ public class PageBean<T> {
         }
     }
 
-    public PageBean(List<T> objects){
-        this(objects.size());
-        this.objects = objects;
+    public PageBean(int pageCount, int rowsCount, int pageSize) {
+        this.pageCount = pageCount;
+        this.rowsCount = rowsCount;
+        this.pageSize = pageSize;
+    }
 
+    public PageBean(int curPage, int pageCount, int rowsCount, int pageSize, List<T> objects) {
+        this.curPage = curPage;
+        this.pageCount = pageCount;
+        this.rowsCount = rowsCount;
+        this.pageSize = pageSize;
+        this.objects = objects;
     }
 
     public int getCurPage() {
@@ -75,9 +75,17 @@ public class PageBean<T> {
     }
 
     public boolean hasPre(){
-        return curPage!=1;
+        return curPage>1;
     }
     public boolean hasNext(){
-        return curPage!=pageCount;
+        return curPage>0&&curPage<pageCount;
+    }
+
+    public List<T> getObjects() {
+        return objects;
+    }
+
+    public void setObjects(List<T> objects) {
+        this.objects = objects;
     }
 }

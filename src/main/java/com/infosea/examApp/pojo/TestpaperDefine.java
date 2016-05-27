@@ -90,4 +90,16 @@ public class TestPaperDefine {
 //    public void setUsers(List<User> users) {
 //        this.users = users;
 //    }
+
+
+    @Override
+    public String toString() {
+        return "TestPaperDefine{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", valid='" + valid + '\'' +
+                ", defineDate=" + defineDate +
+                ", questionTypes=" + questionTypes +
+                '}';
+    }
 }

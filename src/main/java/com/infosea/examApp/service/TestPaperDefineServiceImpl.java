@@ -5,6 +5,8 @@ import com.infosea.examApp.pojo.TestPaper;
 import com.infosea.examApp.pojo.TestPaperDefine;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class TestPaperDefineServiceImpl implements TestPaperDefineService {
     public TestPaperDefine findById(long id) {
         return testPaperDefineDao.findById(id);
     }
-
+    @Transactional
     @Override
     public List<TestPaperDefine> findAll() {
         return testPaperDefineDao.findAll();

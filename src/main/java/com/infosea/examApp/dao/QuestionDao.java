@@ -24,9 +24,11 @@ public interface QuestionDao {
 
     void delete(Question question);
 
-    PageBean<Question> find(int pageNo, int pageSize,String hql);
+    List<Question> find(int pageNo, int pageSize, String hql);
 
     long getCounts();
+
     List<Question> findQuestion(int pageCount, int curPage, Map<String, String> map);
-    PageBean<Question> find( int pageCount, int curPage,Map<String,String> map) ;
+
+    List<Question> find(int pageCount, int curPage, Map<String, String> map);
 }

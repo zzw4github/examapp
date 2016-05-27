@@ -15,13 +15,14 @@ public class Answer {
     private long id;
     @Column
     private String answer;
-    @ManyToOne
+    @OneToOne
     private Question question;
-
-    @ManyToOne
+    @Column
+    private Integer tof;
+    @OneToOne
     private User user;
 
-    @ManyToOne()
+    @OneToOne
     private TestPaper testPaper;
 
     public long getId() {
@@ -64,4 +65,11 @@ public class Answer {
         this.testPaper = testPaper;
     }
 
+    public Integer getTof() {
+        return tof;
+    }
+
+    public void setTof(Integer tof) {
+        this.tof = tof;
+    }
 }

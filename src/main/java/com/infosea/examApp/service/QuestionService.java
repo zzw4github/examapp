@@ -24,7 +24,7 @@ public interface QuestionService {
 
     void saveQuestionFromFile(File file);
 
-    PageBean<Question> find(int pageCount, int curPage, Map<String,String> map);
+    List<Question> find(int pageCount, int curPage, Map<String,String> map);
 
-    PageBean<Question> find(int pageCount, int curPage, String qids);
+    List<Question> find(int pageCount, int curPage, String qids);
 }

@@ -59,14 +59,14 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
-    public PageBean<Question> find(int pageCount, int curPage, String qids) {
+    public List<Question> find(int pageCount, int curPage, String qids) {
         String hql = "select q from Question q left join fetch q.type left join fetch q.option where q.id in (" + qids + ") order by q.id asc";
-        PageBean<Question> questionPageBean =  questionDao.find(pageCount,curPage,hql);
+        List<Question> questionPageBean =  questionDao.find(pageCount,curPage,hql);
         return questionPageBean;
     }
     @Override
-    public PageBean<Question> find(int pageCount, int curPage, Map<String,String> map) {
-        PageBean<Question> questionPageBean =  questionDao.find(pageCount,curPage,map);
+    public List<Question> find(int pageCount, int curPage, Map<String,String> map) {
+        List<Question> questionPageBean =  questionDao.find(pageCount,curPage,map);
         return questionPageBean;
     }
     @Override
@@ -109,7 +109,7 @@ public class QuestionServiceImpl implements QuestionService{
                     question.setDesc("desc");
                     question.setDate(new Date());
                     option.setValue(map.get("option"));
-                    question.setOption(option);
+//                    question.setOption(option);
 //                    questionDao.save(question);
                 }
             }

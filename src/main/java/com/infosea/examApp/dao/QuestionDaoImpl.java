@@ -3,6 +3,7 @@ package com.infosea.examApp.dao;
 import com.infosea.examApp.pojo.Question;
 import com.infosea.examApp.pojo.User;
 import com.infosea.examApp.vo.PageBean;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -20,9 +21,6 @@ import java.util.Map;
 public class QuestionDaoImpl implements QuestionDao {
     @Autowired
     private SessionFactory sessionFactory;
-
-    @Autowired
-    PageUtil pageUtil;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -90,12 +88,18 @@ public class QuestionDaoImpl implements QuestionDao {
     }
 
     @Override
-    public PageBean<Question> find(int pageNo, int pageSize, String hql) {
-        List<Question> questions = pageUtil.findPageByHql(pageNo,pageSize,hql);
-        long totalCount = getCounts();
-        PageBean<Question> pageBean = new PageBean((int)totalCount);
-        pageBean.setObjects(questions);
-        return pageBean;
+    public List<Question> find(int pageNo, int pageSize, String hql) {
+        List<Question> questions = null;
+        try {
+            Query query = this.sessionFactory.getCurrentSession().createQuery(hql);
+            query.setFirstResult((pageNo - 1) * pageSize);
+            query.setMaxResults(pageSize);
+            questions = query.list();
+        } catch (RuntimeException re) {
+            throw re;
+        }
+
+        return questions;
     }
     @Transactional
     @Override
@@ -108,7 +112,20 @@ public class QuestionDaoImpl implements QuestionDao {
         }
         String hql = sb.toString();
         hql = hql.substring(0,hql.length()-4);
-        List<Question> questions = pageUtil.findPageByQuery(pageSize,curPage,hql,map);
+        List<Question> questions = null;
+        try {
+            Query query = this.sessionFactory.getCurrentSession().createQuery(hql);
+             it = map.keySet().iterator();
+            while (it.hasNext()) {
+                Object key = it.next();
+                query.setParameter(key.toString(), map.get(key));
+            }
+            query.setFirstResult((curPage - 1) * pageSize);
+            query.setMaxResults(pageSize);
+            questions = query.list();
+        } catch (RuntimeException re) {
+            throw re;
+        }
 
         return questions;
     }
@@ -121,11 +138,8 @@ public class QuestionDaoImpl implements QuestionDao {
 
     @Transactional
     @Override
-    public PageBean<Question> find( int pageCount, int curPage,Map<String,String> map) {
+    public List<Question> find( int pageCount, int curPage,Map<String,String> map) {
         List<Question> questions =  findQuestion(pageCount,curPage,map);
-        long totalCount = getCounts();
-        PageBean<Question> pageBean = new PageBean((int)totalCount);
-        pageBean.setObjects(questions);
-        return pageBean;
+        return questions;
     }
 }

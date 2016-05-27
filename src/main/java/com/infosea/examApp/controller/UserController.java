@@ -1,6 +1,8 @@
 package com.infosea.examApp.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.infosea.examApp.pojo.User;
+import com.infosea.examApp.pojo.View;
 import com.infosea.examApp.service.UserService;
 import com.infosea.examApp.vo.PageBean;
 import org.springframework.stereotype.Controller;
@@ -20,25 +22,25 @@ import java.util.Map;
  * Created by infosea on 2016/5/9.
  */
 @Controller
-@RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/")
-    public String index(){
 
-        return "";
-    }
-
-    @RequestMapping("/query")
-    public String query(ModelMap model){
+    @RequestMapping("/user/query")
+    @JsonView(View.Summary.class)
+    @ResponseBody
+    public List<User> query(User user ,ModelMap model){
 
         int pageNo = 1 ;
         int pageSize = 5 ;
-        Map<Object ,Object > paramMap = new HashMap<>();
-        PageBean<User> users = userService.find(pageNo , pageSize , paramMap);
-        model.put("users" , users);
-        return "";
+        Map<String ,Object > paramMap = new HashMap<>();
+        paramMap.put("yjdw",user.getYjdw());
+//        paramMap.put("ejdw",user.getEjdw());
+//        paramMap.put("dzlx",user.getDzlx());
+        List<User> userList = userService.findList(pageNo,pageSize,paramMap);
+        PageBean<User> users = userService.findPageBean(pageNo , pageSize , paramMap);
+        System.out.println(users.getObjects().get(0).getId());
+        return userList;
     }
 }

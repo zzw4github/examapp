@@ -1,5 +1,6 @@
 package com.infosea.examApp.pojo;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.annotation.Generated;
@@ -19,32 +20,43 @@ public class User {
    @GeneratedValue(generator = "increment")
     private long id;
     @Column
+    @JsonView(View.Summary.class)
     private String tmh;
     @Column
+    @JsonView(View.Summary.class)
     private String name;
 
     @Column
+    @JsonView(View.Summary.class)
     private String sex;
 
     @Column
+    @JsonView(View.Summary.class)
     private String yjdw;
 
+    @Column
+    @JsonView(View.Summary.class)
+    private String dzlx;
 
     @Column
+    @JsonView(View.Summary.class)
     private  String ejdw;
 
     @Column
+    @JsonView(View.Summary.class)
     private String card_number;
 
     @Column(updatable = false)
     private String pwd;
-
+    @Column
+    @JsonView(View.Summary.class)
     private String permission;
 
     @Column
+    @JsonView(View.Summary.class)
     private String situation;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user",  orphanRemoval = true)
     List<TestPaper> testPaper = new ArrayList<>();
 
     public User() {
@@ -119,8 +131,6 @@ public class User {
         this.id = id;
     }
 
-
-
     public String getPermission() {
         return permission;
     }
@@ -128,8 +138,6 @@ public class User {
     public void setPermission(String permission) {
         this.permission = permission;
     }
-
-
 
     public String getSituation() {
         return situation;
@@ -146,5 +154,13 @@ public class User {
 
     public void setTestPaper(List<TestPaper> testPaper) {
         this.testPaper = testPaper;
+    }
+
+    public String getDzlx() {
+        return dzlx;
+    }
+
+    public void setDzlx(String dzlx) {
+        this.dzlx = dzlx;
     }
 }

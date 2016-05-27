@@ -17,7 +17,7 @@ public class ExamServiceImpl  implements ExamService{
     @Autowired
     ExamDao examDao;
     @Autowired
-    NativeSQLDao nativeSQLDao;
+    CommonDao commonDao;
 
     @Autowired
     TestPaperDao testPaperDao;
@@ -60,8 +60,6 @@ public class ExamServiceImpl  implements ExamService{
     public void update(Exam exam) {
         examDao.update(exam);
     }
-
-
 
     @Override
     public List<Exam> findByUserId(long uid) {

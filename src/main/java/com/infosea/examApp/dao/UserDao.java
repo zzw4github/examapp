@@ -31,8 +31,11 @@ public interface UserDao {
     void delUser(User user);
 
     long getCounts();
+    long getCounts(String sql);
 
-    List<User> findUser(int pageCount, int curPage, Map<Object, Object> map);
+    long getCounts(Map<String,Object> params);
 
-    PageBean<User> find(int pageCount, int curPage, Map<Object, Object> map);
+    List<User> find(int pageCount, int curPage, Map<String, Object> map);
+
+
 }

@@ -5,6 +5,7 @@ import com.infosea.examApp.pojo.User;
 import com.infosea.examApp.vo.PageBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
+    @Transactional
     public User login(User user) {
      User usr =userDao.queryUserByTmhAndPwd(user.getTmh(),user.getPwd());
         return usr;
@@ -70,8 +72,34 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PageBean<User> find(int pageCount, int curPage, Map<Object, Object> map) {
-        PageBean<User> users = userDao.find(pageCount, curPage, map);
+    @Transactional
+    public List<User> findList(int pageCount, int curPage, Map<String, Object> map) {
+        List<User> users = userDao.find(pageCount, curPage, map);
         return users;
+    }
+
+    @Override
+    public boolean deleteById(Long id) {
+        User user = this.find(id);
+        userDao.delUser(user);
+        return true;
+    }
+
+    @Override
+    public long getCount(Map<String, Object> params) {
+        return userDao.getCounts(params);
+    }
+    @Transactional
+    @Override
+    public PageBean<User> findPageBean(int pageNo, int pageSize ,Map<String, Object> params) {
+        long rows = getCount(params);
+        List<User> users = findList(pageNo , pageSize , params);
+        PageBean<User> pageBean = new PageBean((int)rows);
+        pageBean.setObjects(users);
+        pageBean.setRowsCount((int)rows);
+        pageBean.setCurPage(pageNo);
+        pageBean.setPageSize(pageSize);
+        System.out.println(pageBean.getObjects().get(0).getId());
+        return pageBean;
     }
 }

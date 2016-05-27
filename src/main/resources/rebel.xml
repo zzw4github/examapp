@@ -8,7 +8,6 @@
 		<dir name="E:/examApp/target/classes">
 		</dir>
 	</classpath>
-
 	<web>
 		<link target="/">
 			<dir name="E:/examApp/src/main/webapp">

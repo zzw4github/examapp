@@ -36,10 +36,8 @@ public interface ExamDao {
 
     void update(Exam exam);
 
-    PageBean<Exam> find(int pageNo , int pageSize,Map<Object,Object> map);
-
     long getCounts();
 
-    List<Exam> findExam( int pageSize, int curPage,Map<Object,Object> map);
+    List<Exam> find( int pageSize, int curPage,Map<Object,Object> map);
 
 }

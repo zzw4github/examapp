@@ -1,9 +1,6 @@
 package com.infosea.examApp.service;
 
-import com.infosea.examApp.dao.NativeSQLDao;
-import com.infosea.examApp.dao.QuestionDao;
-import com.infosea.examApp.dao.TestPaperDao;
-import com.infosea.examApp.dao.TestPaperDefineDao;
+import com.infosea.examApp.dao.*;
 import com.infosea.examApp.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,16 +18,15 @@ public class TestPaperServiceImpl implements TestPaperService {
     @Autowired
     TestPaperDao testPaperDao;
     @Autowired
-    NativeSQLDao nativeSQLDao;
-    @Autowired
     QuestionDao questionDao;
     @Autowired
     TestPaperDefineDao testPaperDefineDao;
     @Autowired
     AnswerService answerService;
-
-
-
+    @Autowired
+    CommonDao commonDao;
+    @Autowired
+    SubjectDao subjectDao;
 
     @Override
     @Transactional
@@ -70,6 +66,7 @@ public class TestPaperServiceImpl implements TestPaperService {
      * @return
      */
     @Override
+    @Transactional
     public TestPaper produceTestPaper(User user, long testPaperId, Exam exam){
         TestPaperDefine testPaperDefine = testPaperDefineDao.findById(testPaperId);
         List<QuestionType> questionTypes = testPaperDefine.getQuestionTypes();
@@ -85,7 +82,7 @@ public class TestPaperServiceImpl implements TestPaperService {
         testPaper.setName("测试测卷");
         testPaper.setTestPaperDefine(testPaperDefine);
         testPaper.setUser(user);
-        testPaper.setExam(exam);
+        testPaper.setBeginTime(new Date());
         testPaper.setSubjects(subjects);
         testPaperDao.save(testPaper);
         return testPaper;
@@ -161,7 +158,7 @@ public class TestPaperServiceImpl implements TestPaperService {
     }
 
     public String produceTestPaper(long typeId,int account)  {
-        List<Integer> questionIdList = nativeSQLDao.getIds("select id from question where type_id="+typeId+" order by id asc");
+        List<Integer> questionIdList = commonDao.getIds("select id from question where type_id="+typeId+" order by id asc");
         String questionIdStr = produceRandomNumberString(questionIdList.get(0), questionIdList.get(questionIdList.size() - 1), account);
         return  questionIdStr;
     }
@@ -210,6 +207,7 @@ public class TestPaperServiceImpl implements TestPaperService {
                     Subject subject = new Subject();
                     subject.setQuestion(question);
                     subject.setScore(score);
+                    subjectDao.save(subject);
                     subjects.add(subject);
                     if (b == commonRealPageSize && j != remainPage) {
                         break;
@@ -236,7 +234,7 @@ public class TestPaperServiceImpl implements TestPaperService {
     }
 
     public List<Subject> produceSubjects(long typeId,int account,int score)  {
-        List<Integer> questionIdList = nativeSQLDao.getIds("select id from question where type_id="+typeId+" order by id asc");
+        List<Integer> questionIdList = commonDao.getIds("select id from question where type_id="+typeId+" order by id asc");
         List<Subject> subjects = produceSubjects(questionIdList.get(0), questionIdList.get(questionIdList.size() - 1), account,score);
         return  subjects;
     }

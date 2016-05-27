@@ -7,4 +7,5 @@ import com.infosea.examApp.pojo.Answer;
  */
 public interface AnswerDao {
     long save(Answer answer);
+    Answer query(long userId,long testPaperId,long questionId);
 }

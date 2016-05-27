@@ -20,5 +20,6 @@ public interface TestPaperService {
     void del(TestPaper testPaper);
     void update(TestPaper testPaper);
     TestPaper produceTestPaper(User user , long testPaperDefineId,Exam exam);
+    List<Subject> produceSubjects(long typeId,int account,int score);
 
 }

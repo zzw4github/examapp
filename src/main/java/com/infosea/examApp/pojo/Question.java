@@ -18,28 +18,36 @@ public class Question {
     @GenericGenerator(name = "increment" ,strategy = "increment")
     @GeneratedValue(generator = "increment")
     private long id;
-    @Column
+
+     @Column(name="q_content")
     private String content;
+
+    @Column(name="std_answer", nullable = false)
     private String stdAnswer;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn( name = "type_id")
-//    //这个设为双向绑定的时候 mappedby不能是 QuestionType
-////    不知道能不能设为双向
     private Type type;
 
-    @OneToOne(cascade= CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinColumn(name = "option_id")
-    private Option option ;
+    @Column(name = "q_option")
+    String option;
 
-    @Column(name="desc1")
+    @Column(name="q_desc")
     private String desc;
 
     @Temporal(TemporalType.DATE)
-    @Column( nullable = false, length = 10)
+    @Column(name="q_date" ,  nullable = false, length = 10)
     private Date date;
+
+    public Question() {
+    }
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getContent() {
@@ -49,7 +57,6 @@ public class Question {
     public void setContent(String content) {
         this.content = content;
     }
-
     public Type getType() {
         return type;
     }
@@ -74,17 +81,14 @@ public class Question {
         this.date = date;
     }
 
-    public Option getOption() {
+    public String getOption() {
         return option;
     }
 
-    public void setOption(Option option) {
+    public void setOption(String option) {
         this.option = option;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getStdAnswer() {
         return stdAnswer;
