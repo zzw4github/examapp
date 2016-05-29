@@ -1,0 +1,111 @@
+@charset "utf-8";
+/* CSS Document */
+.min-w1{min-width:1050px; height:100%; }
+.ks_top{	
+	height:135px;
+	background:#09F;
+	background-image: url(../image/bg_top.gif);
+	background-repeat: repeat;
+	font-size:40px;
+	font-weight:bold;
+	line-height:130px;
+	text-align:center;
+	color:#FFF;
+	text-shadow: 2px 2px 2px #717b92;
+	letter-spacing: 5px;
+	}
+.ks_bg{background-color:#ecf1f5;}
+.ks_white{ background:#FFF;}
+.top_xx{font-weight:bold;
+text-align:right;
+margin-right:50px;
+margin-top:10px;}
+.top_xx a{
+	color: #D20005;
+}
+.ks1{
+	background:#FFF;
+	width:800px;
+	height:140px;
+	margin: 20px auto;
+	border: 1px solid #e6e6e6;
+	}
+.ksk_left{
+	width:170px;
+	float:left
+	}
+.ksk_left img{
+	margin-top:5px;
+	margin-left:5px;
+	border:none;}
+.ksk_right{ margin:5px;
+font-size:13px;
+}
+.ksk_right div{
+height:28px;
+}
+.cjks{ text-align:right}
+
+
+
+.ks_left{
+	float:left;
+	width:20%;
+	padding:10px;
+	font-weight:bold;
+	font-size:13px;
+	line-height:30px;
+	}
+.ks_left_top div{
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #e1e1e1;
+}
+.ks_left_down{
+	background:#FFF;
+}
+
+.ks_an{
+	text-align:center;
+	}
+.ks_an input{
+	margin:10px;}
+.xuanti a{
+	text-align:center;
+	display:block;
+	height:30px;
+	width:30px;
+	border: 1px solid #bbbbbb;
+	margin:4px;
+	float:left;
+	text-decoration: none;
+	color:#3a3a3a;
+	}
+.a_white{
+	background:#FFF;}
+.a_green{
+	background:#b3d682;
+	}
+.a_red{
+	background:#dc504f;
+	}
+	
+	
+.ks_right{
+	float:right;
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: #dedede;
+	background:#FFF;
+	height:82%;
+	width:78%;
+	}
+
+.ksr_1{
+	margin-top:15px; margin-left:50px;
+	font-weight:bold;}
+
+.ksr_2{
+	width:800px; margin-top:15px; margin-left:auto; margin-right:auto;  }
+.
+	

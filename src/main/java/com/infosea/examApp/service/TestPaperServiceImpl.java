@@ -83,6 +83,7 @@ public class TestPaperServiceImpl implements TestPaperService {
         testPaper.setTestPaperDefine(testPaperDefine);
         testPaper.setUser(user);
         testPaper.setBeginTime(new Date());
+        testPaper.setMaxEndTime(new Date(testPaper.getBeginTime().getTime()+exam.getTime()*60*1000));
         testPaper.setSubjects(subjects);
         testPaperDao.save(testPaper);
         return testPaper;

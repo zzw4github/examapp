@@ -56,6 +56,8 @@ public class TestServiceImpl implements  TestService {
         UserDTO userDTO = new UserDTO(user.getName(), user.getTmh(),user.getId());
         ExamDTO examDTO = new ExamDTO(exam.getName(), exam.getDesc(), exam.getTime());
         TestPaperDTO testPaperDTO = new TestPaperDTO(testPaper.getId(),testPaper.getName());
+        testPaperDTO.setBeginTime(testPaper.getBeginTime().getTime());
+        testPaperDTO.setMaxEndTime(testPaper.getMaxEndTime().getTime());
         TestDefineDTO testDefineDTO  = new TestDefineDTO();
         testDefineDTO.setTypes(testPaperDefine.getQuestionTypes());
         TestDTO testDTO = new TestDTO();
@@ -65,10 +67,13 @@ public class TestServiceImpl implements  TestService {
         testDTO.setTestDefineDTO(testDefineDTO);
         testDTO.setPageBean(pageBean);
         testDTO.setIds(ids);
+        testDTO.setAnsweredIds(new HashSet<>());
+
         return  testDTO;
     }
 
     @Transactional
+    @Override
     public TestDTO userTest(long userId, long examId){
         User user = userDao.find(userId);
         Exam exam = examDao.findByID(examId);
@@ -82,6 +87,7 @@ public class TestServiceImpl implements  TestService {
         testDTO.setUserDTO(userDTO);
         testDTO.setExamDTO(examDTO);
         testDTO.setTestDefineDTO(testDefineDTO);
+        System.out.println(examDTO.getTime()+" examTime");
         return  testDTO;
     }
 
@@ -93,11 +99,13 @@ public class TestServiceImpl implements  TestService {
         TestPaper testPaper = testPaperDao.findById(testPaperId);
         User user = userDao.find(userID);
         int totalScore = 0;
+        int x =0;
 
         /**
          * 获取试卷的所有试题，取得试题的正确答案，与AnswerMap中的答案比较获得分数，并把答案保存到Answer表中
          */
         for (Iterator<Subject> item = testPaper.getSubjects().iterator(); item.hasNext(); ) {
+           x++;
             Subject subject = item.next();
             Question question = subject.getQuestion();
             String qid = String.valueOf(question.getId());

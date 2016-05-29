@@ -42,4 +42,14 @@ public class ResultDTO {
     public void setUserId(long userId) {
         this.userId = userId;
     }
+
+    @Override
+    public String toString() {
+        return "ResultDTO{" +
+                "costTime=" + costTime +
+                ", score=" + score +
+                ", questionDTOs=" + questionDTOs +
+                ", userId=" + userId +
+                '}';
+    }
 }

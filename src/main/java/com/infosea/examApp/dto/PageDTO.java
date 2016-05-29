@@ -40,4 +40,14 @@ public class PageDTO {
     public void settSecond(Integer tSecond) {
         this.tSecond = tSecond;
     }
+
+    @Override
+    public String toString() {
+        return "PageDTO{" +
+                "questionId=" + questionId +
+                ", questionAnswer='" + questionAnswer + '\'' +
+                ", tMinute=" + tMinute +
+                ", tSecond=" + tSecond +
+                '}';
+    }
 }

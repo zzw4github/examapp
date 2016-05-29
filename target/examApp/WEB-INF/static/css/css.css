@@ -1,0 +1,20 @@
+@charset "utf-8";
+/* CSS Document */
+
+html,body{
+	margin: 0px;
+	padding: 0px;
+	height:100%;
+	font-family: "微软雅黑", "宋体", "黑体";
+	color: #787878;
+}
+ul,li{
+	margin:0px;
+	padding:0px;
+	list-style:none;
+	}
+img{
+	border:none;
+	}
+.red{
+	color:#DD0005}

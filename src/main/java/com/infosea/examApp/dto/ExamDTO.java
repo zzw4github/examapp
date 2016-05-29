@@ -40,4 +40,13 @@ public class ExamDTO {
     public void setTime(int time) {
         this.time = time;
     }
+
+    @Override
+    public String toString() {
+        return "ExamDTO{" +
+                "name='" + name + '\'' +
+                ", desc='" + desc + '\'' +
+                ", time=" + time +
+                '}';
+    }
 }

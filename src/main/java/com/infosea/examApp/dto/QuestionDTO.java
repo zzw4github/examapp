@@ -102,4 +102,20 @@ public class QuestionDTO {
     public void setUserId(long userId) {
         this.userId = userId;
     }
+
+    @Override
+    public String toString() {
+        return "QuestionDTO{" +
+                "id=" + id +
+                ", tof=" + tof +
+                ", trueAnswer='" + trueAnswer + '\'' +
+                ", answer='" + answer + '\'' +
+                ", content='" + content + '\'' +
+                ", option='" + option + '\'' +
+                ", type='" + type + '\'' +
+                ", nextId=" + nextId +
+                ", preId=" + preId +
+                ", userId=" + userId +
+                '}';
+    }
 }

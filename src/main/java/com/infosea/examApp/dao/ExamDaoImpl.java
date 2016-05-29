@@ -36,7 +36,6 @@ public class ExamDaoImpl implements ExamDao {
      * @return
      */
     @Override
-    @Transactional
     public Exam findByID(long id) {
         return this.sessionFactory.getCurrentSession().load(Exam.class,id);
 //        return this.sessionFactory.getCurrentSession().get(Exam.class,id);

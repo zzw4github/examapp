@@ -53,6 +53,11 @@ public class TestPaper {
     @Column(name = "end_time")
     private Date endTime;
 
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "max_end_time")
+    private Date maxEndTime;
+
     public TestPaper() {
     }
     public TestPaper(String name) {
@@ -138,5 +143,13 @@ public class TestPaper {
 
     public void setCostTime(Long costTime) {
         this.costTime = costTime;
+    }
+
+    public Date getMaxEndTime() {
+        return maxEndTime;
+    }
+
+    public void setMaxEndTime(Date maxEndTime) {
+        this.maxEndTime = maxEndTime;
     }
 }

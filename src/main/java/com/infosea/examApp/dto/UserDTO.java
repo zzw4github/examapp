@@ -40,4 +40,13 @@ public class UserDTO {
     public void setId(long id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "name='" + name + '\'' +
+                ", tmh='" + tmh + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }

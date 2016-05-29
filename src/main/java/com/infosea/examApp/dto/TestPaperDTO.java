@@ -6,7 +6,9 @@ package com.infosea.examApp.dto;
 public class TestPaperDTO {
     private long id;
     private String name;
-
+    private long beginTime;
+    private long endTime;
+    private long maxEndTime;
     public TestPaperDTO() {
     }
 
@@ -31,4 +33,38 @@ public class TestPaperDTO {
         this.name = name;
     }
 
+    public long getBeginTime() {
+        return beginTime;
+    }
+
+    public void setBeginTime(long beginTime) {
+        this.beginTime = beginTime;
+    }
+
+    public long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(long endTime) {
+        this.endTime = endTime;
+    }
+
+    public long getMaxEndTime() {
+        return maxEndTime;
+    }
+
+    public void setMaxEndTime(long maxEndTime) {
+        this.maxEndTime = maxEndTime;
+    }
+
+    @Override
+    public String toString() {
+        return "TestPaperDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", beginTime=" + beginTime +
+                ", endTime=" + endTime +
+                ", maxEndTime=" + maxEndTime +
+                '}';
+    }
 }

@@ -19,4 +19,11 @@ public class TestDefineDTO {
     public void setTypes(List<QuestionType> types) {
         this.types = types;
     }
+
+    @Override
+    public String toString() {
+        return "TestDefineDTO{" +
+                "types=" + types +
+                '}';
+    }
 }

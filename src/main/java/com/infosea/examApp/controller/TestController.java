@@ -78,9 +78,12 @@ public class TestController {
         }
 
         TestDTO testDTO = testService.userTest(userId,Long.valueOf(examId));
+        testDTO.setAnswerMap(answerMap);
         request.getSession().setAttribute("testPaperDefineId", testPaperDefineId);
         request.getSession().setAttribute("testDTO", testDTO);
-        model.addAttribute("testDTO",testDTO);
+
+//        model.addAttribute("testDTO",testDTO);
+        request.getSession().setAttribute("answerMap",answerMap);
         return "ks/jrks";
     }
     /**
@@ -108,6 +111,7 @@ public class TestController {
         request.getSession().setAttribute("answerMap", answerMap);
       request.getSession().setAttribute("testPaperDefineId", testPaperDefineId);
         request.getSession().setAttribute("testDTO", testDTO);
+        System.out.println(testDTO.getPageBean().getRowsCount()+" rowscount");
 //        model.addAttribute("testDTO",testDTO);
         System.out.println("abc");
         return "ks/ks";
@@ -120,7 +124,7 @@ public class TestController {
      * @TODO 将答案保存到数据库
      */
     @RequestMapping(value = "/test/user/{userId}/pageNo/{pageNo}",
-                    method = {RequestMethod.POST, RequestMethod.POST},
+                    method = {RequestMethod.POST},
                     produces="application/json;charset=UTF-8")
     @ResponseBody
     public TestDTO page(
@@ -137,13 +141,25 @@ public class TestController {
 //      value 标签值
 //      点提交按钮后提交
 
-        Map map1 = request.getParameterMap();
-        Set<String> key = map1.keySet();
-        String tMinute =(String) request.getParameter("tMinute");
-        String tSecond = (String) request.getParameter("tSecond");
         String qId = (String) request.getParameter("questionId");
         String qAnswer = (String) request.getParameter("questionAnswer");
-        answerMap.put(qId, qAnswer);
+        if(Strings.isNullOrEmpty(qAnswer)){
+            qAnswer = "";
+
+        }
+        if(Strings.isNullOrEmpty(qId)){
+            qId = "";
+
+        }
+        System.out.println("--------------------------");
+        if(!qAnswer.equals("")){
+            testDTO.getAnsweredIds().add("q"+qId);
+        }
+
+        System.out.println(qAnswer+" qAnswer");
+        if(!Strings.isNullOrEmpty(qId)) {
+            answerMap.put(qId, qAnswer);
+        }
 
         request.getSession().setAttribute("answerMap", answerMap);
         String hql = "select testPaper.subjects from TestPaper testPaper where testPaper.id=" + testPaperId;
@@ -153,9 +169,9 @@ public class TestController {
         pageBean.setCurPage(pageNo);
         pageBean.setObjects(subjects);
         testDTO.setPageBean(pageBean);
-        testDTO.settMinute(tMinute);
-        testDTO.settSecond(tSecond);
-//        request.getSession().setAttribute("TestDTO", testDTO);
+        testDTO.setAnswerMap(answerMap);
+        System.out.println(answerMap.size()+" answerMap");
+                request.getSession().setAttribute("TestDTO", testDTO);
 //        return "ks/ks";
         return testDTO;
 
@@ -171,13 +187,18 @@ public class TestController {
                     produces="application/json;charset=UTF-8"
                     )
     public String commit(HttpServletRequest request, HttpServletResponse response,Model model) {
-        TestDTO testDTO =(TestDTO) request.getSession().getAttribute("testDTO");
-        long testPaperId = testDTO.getTestPaperDTO().getId();
-        long userId = testDTO.getUserDTO().getId();
-        Map<String, String> answerMap = (Map<String, String>) request.getSession().getAttribute("answerMap");
-        ResultDTO resultDTO = testService.saveAnswer(testPaperId, userId , answerMap);
-        resultDTO.setUserId(userId);
-        model.addAttribute("resultDTO", resultDTO);
+        try {
+            TestDTO testDTO = (TestDTO) request.getSession().getAttribute("testDTO");
+            long testPaperId = testDTO.getTestPaperDTO().getId();
+            long userId = testDTO.getUserDTO().getId();
+            Map<String, String> answerMap = (Map<String, String>) request.getSession().getAttribute("answerMap");
+            ResultDTO resultDTO = testService.saveAnswer(testPaperId, userId, answerMap);
+            resultDTO.setUserId(userId);
+            model.addAttribute("resultDTO", resultDTO);
+            System.out.println(resultDTO);
+        }catch (RuntimeException runtimeException ){
+            runtimeException.printStackTrace();
+        }
         return "ks/kw";
     }
 
@@ -216,6 +237,12 @@ public class TestController {
         questionDTO.setUserId(userId);
 //        model.addAttribute("questionDTO", questionDTO);
         return questionDTO;
+    }
+    @RequestMapping(value = "/test/time/now" ,method = RequestMethod.GET)
+    @ResponseBody
+    public TestDTO now (){
+        Date date = new Date();
+        return new TestDTO(true, date.getTime());
     }
 
 }
